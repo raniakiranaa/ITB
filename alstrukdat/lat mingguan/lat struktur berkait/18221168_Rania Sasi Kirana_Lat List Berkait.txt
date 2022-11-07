@@ -1,0 +1,158 @@
+Latihan List Berkait
+Rania Sasi Kirana
+18221168
+
+1.
+function countPos(l: List) -> integer
+{ Mengembalikan banyaknya kemunculan bilangan positif (>0) dari sebuah list of integer l }
+KAMUS LOKAL
+    p: Address
+    count: integer
+ALGORITMA
+    p <- l
+    count <- 0
+    while (p != NIL) do
+        if (p↑.info > 0) then
+            count <- count + 1
+        p <- p↑.next
+    { p = NIL }
+    -> count
+
+2.
+function max(l: List) -> integer
+{ Mengembalikan nilai maksimum dari suatu list of integer l yang tidak kosong }
+KAMUS LOKAL
+    p: Address
+    max: integer
+ALGORITMA
+    p <- l
+    max <- p↑.info
+    p <- p↑.next
+    while (p != NIL) do
+        if (p↑.info > max) then
+            max <- p↑.info
+        p <- p↑.next
+    { p = NIL }
+    -> max
+
+3.
+function searchPos(l: List) -> Address
+{ Mengembalikan address dimana nilai positif pertama kali ditemukan di list of integer l }
+KAMUS LOKAL
+    p: Address
+    found: boolean
+ALGORITMA
+    p <- l
+    found <- false
+    while ((p != NIL) and (not found)) do
+        if (p↑.info > 0) then
+            found <- true
+        else
+            p <- p↑.next
+    { p = NIL or found }
+    
+    if (found) then
+        -> p
+    else
+        -> NIL
+
+4.
+procedure deleteNeg(input/output l: List)
+{ Menghapus semua elemen bernilai negatif (<0)
+pada sebuah list of integer l. List l boleh kosong dan setiap elemen yang dihapus
+harus dilakukan dealokasi.}
+KAMUS LOKAL
+    p, p1: Address
+ALGORITMA
+    p1 <- NIK
+    p <- l
+    while (p != NIL) do
+        if (p↑.info < 0) then
+            if (p1 = NIL) then
+                l <- p↑.next
+                dealokasi(p)
+                p <- l
+            else
+                p1↑.next <- p↑.next
+                dealokasi(p)
+                p <- p1↑.next
+        else
+            p1 <- p
+            p <- p1↑.next 
+
+5.
+procedure copyPos(input l1: List, output l2: List)
+{ Menyalin semua elemen bernilai positif(>0) dari sebuah list of integer l1 menjadi l2 }
+KAMUS LOKAL
+    p, p1, last: Address
+ALGORITMA
+    CreateList(l2)
+    if (not isEmpty(l1)) then
+        p <- l1
+        while (p != NIL) do
+            if (p↑.info > 0) then
+                p1 <- newNode(p↑.info)
+                if (isEmpty(l2)) then
+                    if (p1 != NIL) then
+                        p1↑.next <- l2
+                        l2 <- p1
+                else
+                    if (p1 != NIL) then
+                        last <- l2
+                        while (last↑.next != NIL) do
+                            last <- last↑.next
+                        last↑.next <- p1
+            p <- p↑.next
+
+6.
+procedure sortedInsert(input/output l: List, input x: ElType)
+{ Menambahkan sebuah elemen x pada sebuah list of integer l yang terurut menaik }
+KAMUS LOKAL
+    p: Address
+    found: boolean
+ALGORITMA
+    if (isEmpty(l)) then
+        p <- newNode(x)
+        if (p != NIL) then
+            p↑.next <- l
+            l <- p
+    else
+        loc <- l
+        p <- newNode(x)
+        if (loc↑.info > x) then
+            if (p != NIL) then
+                p↑.next <- loc
+                loc <- p
+        else   
+            found <- false
+            while (loc != NIL and not found) do
+                if (loc↑.info > x) then
+                    p↑.next <- loc↑.next
+                    loc↑.next <- p
+                    found <- true
+                else
+                    loc <- loc↑.next
+
+7.
+procedure updateList(input x,y: infotype, input/output l: List)
+{ Menerima sebuah infotype x dan y dan sebuah list
+l dan kemudian mengganti elemen pertama l yang bernilai x dengan y jika x ada di l.
+Jika x tidak ada di l, l tetap.}
+KAMUS LOKAL
+    p: Address
+ALGORITMA
+    p <- l
+    found <- false
+    while ((p != NIL) and (not found)) do
+        if (p↑.info = x) then
+            p↑.info <- y
+            found <- true
+        else
+            p <- p↑.next
+    { p = NIL or found }
+    
+
+
+
+
+        

@@ -1,0 +1,205 @@
+LATIHAN STACK
+RANIA SASI KIRANA
+18221168
+
+SOAL 1
+
+procedure copyStack(input sIn: Stack, output sOut: Stack)
+{ Membuat salinan sOut }
+{ I.S. sIn terdefinisi, sOut sembarang }
+{ F.S. sOut berisi salinan sIn yang identik }
+KAMUS LOKAL
+    Temp: Stack
+ALGORITMA
+    CreateStack(Temp)
+    CreateStack(sOut)
+
+    while not isEmpty(sIn) do
+        pop(sIn, val)
+        push(Temp, val)
+
+    while not isEmpty(Temp) do
+        pop(Temp, val)
+        push(sOut, val)
+
+procedure inverseStack(input/output s: Stack)
+{ Membalik isi suatu stack }
+{ I.S. s terdefinisi }
+{ F.S. Isi s terbalik dari posisi semula }
+KAMUS LOKAL
+    Temp1: Stack
+    Temp2: Stack
+ALGORITMA
+    CreateStack(Temp1)
+    CreateStack(Temp2)
+
+    while not isEmpty(s) do
+        pop(s, val)
+        push(Temp1, val)
+
+    while not isEmpty(Temp1) do
+        pop(Temp1, val)
+        push(Temp2, val)
+    
+    while not isEmpty(Temp2) do
+        pop(Temp2, val)
+        push(s, val)
+
+function mergeStack(s1,s2: Stack) → Stack
+{ Menghasilkan sebuah stack yang merupakan hasil penggabungan s1
+dengan s2 dengan s1 berada di posisi lebih “bawah”. Urutan kedua
+stack harus sama seperti aslinya. }
+{ Stack baru diisi sampai seluruh elemen s1 dan s2 masuk ke dalam
+stack, atau jika stack baru sudah penuh, maka elemen yang
+dimasukkan adalah secukupnya yang dapat ditampung. }
+KAMUS LOKAL
+    Temp: Stack
+    capacity1: integer
+    sOut: Stack
+ALGORITMA
+    CreateStack(Temp)
+    capacity1 <- s1.idxTop { banyak elemen yang ada di s1 }
+
+    while not isEmpty(s1) do
+        pop(s1, val)
+        push(Temp, val)
+
+    while not isEmpty(Temp) do
+        pop(Temp, val)
+        push(sOut, val)
+    
+    while not isEmpty(s2) do
+        pop(s2, val)
+        push(Temp, val)
+
+    i <- capacity1
+    while not isEmpty(Temp) and i<CAPACITY do
+        pop(Temp, val)
+        push(sOut, val)
+        i <- i+1
+    
+    -> sOut
+
+SOAL 2
+
+Modifikasi dan lengkapi program Evaluasi Ekspresi Aritmatika pada slide materi kuliah
+
+procedure firstToken
+{ Mengambil token yang pertama, disimpan di currentToken }
+KAMUS LOKAL
+    i: integer
+ALGORITMA
+    start
+    ignoreBlank
+    if (not endToken) then
+        i<-0
+        repeat
+            currentToken.buffer[i] <- CC 
+            adv
+            i <- i+1
+        until (CC=MARK) or (CC=BLANK)
+        currentToken.length <- i
+
+procedure nextToken
+{ Mengambil token yang berikutnya, disimpan di currentToken }
+KAMUS LOKAL
+ALGORITMA
+    ignoreBlank
+    if(CC=MARK) then
+        endToken <- true
+    else
+        i<-0
+        repeat
+            currentToken.buffer[i] <- CC 
+            adv
+            i <- i+1
+        until (CC=MARK) or (CC=BLANK)
+        currentToken.length <- i
+
+function endToken → boolean
+{ Menghasilkan true jika proses akuisisi mendapat hasil sebuah token kosong.
+Merupakan akhir ekspresi. }
+KAMUS LOKAL
+ALGORITMA
+    if (CC = MARK) then
+        -> true
+    else
+        -> false
+
+function isOperator → boolean
+{ Menghasilkan true jika currentToken adalah operator }
+KAMUS LOKAL
+ALGORITMA
+    if (currentToken.length = 1) then 
+        if (currentToken.buffer[0] = '+') or (currentToken.buffer[0] = '-') or (currentToken.buffer[0] = '*') or (currentToken.buffer[0] = '/') then
+            -> true
+        else
+            -> false
+    else
+        -> false
+
+function evaluate(op1,op2,operator: token) → token
+{ Menghitung ekspresi, mengkonversi hasil menjadi token}
+KAMUS LOKAL
+    output: Token
+    intop1, intop2, h: integer
+ALGORITMA
+    { konversi token menjadi integer }
+    intop1 <- 0
+    intop2 <- 0
+    i traversal [0..op1.length-1]
+        intop1 <- intop1 * 10 + (op1.buffer[i] - '0')
+    i traversal [0..op2.length-1]
+        intop2 <- intop2 * 10 + (op2.buffer[i] - '0')
+    if (operator.buffer[0] = '+') then 
+        h <- intop1 + intop2
+    else if (operator.buffer[0] = '-') then
+        h <- intop1 - intop2
+    else if (operator.buffer[0] = '*') then
+        h <- intop1 * intop2
+    else if (operator.buffer[0] = '/') then
+        h <- intop1 / intop2
+    
+    output.buffer <- h
+    output.length <- length(h)
+
+    -> output
+
+Program EKSPRESI
+{ Menghitung sebuah ekspresi aritmatika yang ditulis secara postfix }
+USE STACK { paket stack sudah terdefinisi dgn elemennya bertipe token }
+use MesinKata1
+KAMUS
+    type Token: < buffer: array [0..N_MAX-1]  of character,
+                length: integer >
+    { buffer adalah tempat penampung/container token,
+    length menyatakan panjang token }
+    s: Stack { stack of token }
+    currentToken, op1, op2: Token { token: operan ∪ operator }
+    procedure firstToken
+    { Mengambil token yang pertama, disimpan di currentToken }
+    procedure nextToken
+    { Mengambil token yang berikutnya, disimpan di currentToken }
+    function endToken → boolean
+    { Menghasilkan true jika proses akuisisi mendapat hasil sebuah token kosong.
+    Merupakan akhir ekspresi. }
+    function isOperator → boolean
+    { Menghasilkan true jika currentToken adalah operator }
+    function evaluate(op1,op2,operator: token) → token
+    { Menghitung ekspresi, mengkonversi hasil menjadi token}
+
+ALGORITMA
+    firstToken
+    if (endToken) then
+        output ("Ekspresi kosong")
+    else
+        repeat
+            if not isOperator then
+                push(s,currentToken)
+        else
+            pop(s,op2)
+            pop(s,op1)
+            push(s,evaluate(op1,op2, currentToken))
+        nextToken
+    until (endToken)
+    output (top(s)) { Menuliskan hasil }

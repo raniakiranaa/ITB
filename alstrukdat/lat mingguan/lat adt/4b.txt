@@ -1,0 +1,28 @@
+function isFront (l1,l2 : List) → boolean
+{ Mengembalikan true jika elemen-elemen l1 merupakan bagian awal dari l2 }
+{ Contoh: }
+{ isFront ([2,3,4], [2,3,4,5,6]) = true }
+{ isFront ([2,3,4], [3,4,5,6]) = false }
+{ isFront ([], [2,3,4,5,6]) = true }
+{ isFront ([2,3,4], [2,3]) = false }
+{ isFront ([2,3,4], []) = false }
+
+KAMUS LOKAL
+    i: integer
+    cek: boolean
+
+ALGORITMA
+    { inisiasi variabel }
+    cek <- True
+
+    { proses }
+    if l1.nEff = 0 then
+        cek <- True
+    else
+        { yang dicek adalah seluruh elemen list l1 sehingga menggunakan nEff l1}
+        i traversal [0..l1.nEff-1]
+            if cek then
+                if l1.contents[i] ≠ l2.contents[i] then
+                    cek <- False
+
+    -> cek

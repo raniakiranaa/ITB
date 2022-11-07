@@ -1,0 +1,48 @@
+Rania Sasi Kirana
+18221168
+Latihan Queue Berkait
+
+void enqueue(PrioQueue *q, ElType x, int pr)
+{
+/* Proses: Mengalokasi x dengan prio pr dan menambahkan x pada q
+jika alokasi berhasil; jika alokasi gagal q tetap */
+
+/* I.S. q mungkin kosong */
+/* F.S. x menjadi elemen q sesuai dengan urutan prioritas */
+
+    Address p, loc, last;
+    p = newNode(x, pr);
+    if (p != Nil){
+        if (isEmpty(*q)){                                           // q kosong maka p jadi head q
+            ADDR_HEAD(*q) = p;
+        } else {                                                    // q tidak kosong
+            loc = ADDR_HEAD(*q);
+            if (PRIO(p) < PRIO(loc)){                               // PRIO(p) < PRIO(loc) shg p jadi head q
+                NEXT(p) = loc;
+                ADDR_HEAD(*q) = p;
+            } else {                                                // PRIO(p) >= PRIO(loc)
+                last = NEXT(loc);                               // q lebih dari 1 node, p berada di tengah atau di akhir      
+                while (PRIO(p) >= PRIO(last) && last != Nil){   
+                    loc = last;
+                    last = NEXT(loc);
+                }
+                NEXT(loc) = p;
+                NEXT(p) = last;
+            }
+        }
+    }
+}
+
+void dequeue(PrioQueue *q, ElType *x, int *pr)
+{
+/* Proses: Menghapus x pada bagian HEAD dari q dan mendealokasi elemen HEAD */
+/* Pada dasarnya operasi deleteFirst */
+/* I.S. q tidak mungkin kosong */
+/* F.S. x = nilai elemen HEAD pd I.S., HEAD "mundur" */
+    
+    address p = ADDR_HEAD(*q);
+    *pr = PRIO(p);
+    *x = HEAD(*q);
+    ADDR_HEAD(*q) = NEXT(p);
+    delNode(p);
+}

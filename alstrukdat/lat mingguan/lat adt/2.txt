@@ -1,0 +1,9 @@
+constant kapasitas: integer = 100
+constant idxUndef: integer = -1
+
+{ Menambahkan MARK }
+constant MARK: integer = -9999
+
+type ElType: integer { type elemen list }
+{ Menghapus nEff (indeks efektif) }
+type List: <ti: array [0..kapasitas-1] of ElType>

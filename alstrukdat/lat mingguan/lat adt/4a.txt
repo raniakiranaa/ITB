@@ -1,0 +1,57 @@
+procedure closestPair (input l: List; output p1,p2: ElType)
+{ I.S.: l terdefinisi, mungkin kosong, p1 dan p2 sembarang. }
+{ F.S.:
+Jika l tidak kosong, p1 dan p2 berisi 2 elemen l pada posisi
+berurutan yang memiliki selisih (selalu positif) terkecil.
+Jika kedua elemen nilainya berbeda, maka p1 adalah elemen yang
+bernilai lebih kecil.
+Jika ada beberapa pasang elemen yang memiliki selisih terkecil,
+maka diambil pasangan elemen yang muncul pertama kali.
+Jika l kosong atau hanya terdiri atas 1 elemen, p1 dan p2
+berisi elemen tidak terdefinisi yaitu -999 }
+{ Contoh:
+l.ti = [5,3,10,11,20,19]; maka p1=10 dan p2=11
+l.ti = [-2,10,7,30,40,43,9]; maka p1=7 dan p2=10
+l.ti = [-2,10,10,40,40]; maka p1=10 dan p2=10 }
+
+KAMUS LOKAL
+    p1, p2: ElType
+    selisih, simpan, i: integer
+
+ALGORITMA
+    if l.nEff <= 1 then { Jika list kosong atau berisi 1 elemen }
+        p1 <- -999
+        p2 <- -999
+    else { List memiliki elemen lebih dari 1 }
+        { inisiasi variabel selisih, p1, dan p2 }
+        { karena nilai selisih selalu positif sehingga dilakukan pengecekan nilai elemen mana yang lebih besar }
+        if l.contents[0] >= l.contents[1] then 
+            selisih <- l.contents[0] - l.contents[1]
+            p1 <- l.contents[1]
+            p2 <- l.contents[0]
+        else
+            selisih <- l.contents[1] - l.contents[0]
+            p1 <- l.contents[1]
+            p2 <- l.contents[0]
+
+        { menyimpan nilai selisih di variabel simpan }
+        simpan <- selisih
+
+        { proses }
+        i traversal [1..l.nEff-1]
+            if l.contents[i] <= l.contents[i+1] then
+                selisih <- l.contents[i+1] - l.contents[i]
+            else
+                selisih <- l.contents[i] - l.contents[i+1]
+
+            { jika selisih baru lebih kecil dari selisih sebelumnya yang tersimpan dalam variabel simpan }
+            if simpan > selisih then
+                simpan <- selisih
+                if l.contents[i] <= l.contents[i+1] then
+                    p1 <- l.contents[i]
+                    p2 <- l.contents[i+1]
+                else
+                    p1 <- l.contents[i+1]
+                    p2 <- l.contents[i]
+
+

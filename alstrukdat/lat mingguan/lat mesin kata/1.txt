@@ -1,0 +1,42 @@
+Program FrekuensiKataPertama
+{ Menghitung frekuensi kemunculan kata pertama dalam pita. }
+
+KAMUS
+    { *** Mesin yang digunakan *** }
+    USE MesinKata1
+
+    nbKata: integer { banyaknya kata dalam pita }
+    nKataPertama: integer { frekuensi kemunculan kata pertama dalam pita }
+    i: integer
+    cek: boolean
+    kataPertama: Kata
+
+ALGORITMA
+    startKata
+    if endKata then
+        output("Pita karakter kosong")
+    else
+        nbKata <- 1
+        nKataPertama <- 1 { kata pertama dihitung }
+        { Menyimpan informasi kata pertama }
+        kataPertama.length <- currentKata.length
+        i traversal [0..(kataPertama.length)-1]
+            kataPertama.buffer[i] <- currentKata.buffer[i]
+        advKata
+        while not endKata do
+            cek <- True
+            if (kataPertama.length != currentKata.length) then
+                cek <- False
+            else
+                i traversal [0..(kataPertama.length)-1]
+                    if (kataPertama.buffer[i] != currentKata.buffer[i]) then
+                        cek <- False
+                        
+                if cek then
+                    nKataPertama <- nKataPertama + 1
+            
+            nbKata <- nbKata + 1
+            advKata
+        
+        output("Frekuensi kata pertama dalam pita adalah", nKataPertama, "/", nbKata)
+        

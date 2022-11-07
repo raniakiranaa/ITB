@@ -1,0 +1,13 @@
+intinya bisa dibilang opened tab itu tab kiri, history itu tab kanan
+
+contoh:
+
+state awal: tab kiri [] tab kanan []
+1. buka instagram.com [instagram.com] []
+2. buka twitter.com [instagram.com, twitter.com] []
+3. buka google.com [instagram.com, twitter.com, google.com] []
+4. buka itb.ac.id [instagram.com, twitter.com, google.com, itb.ac.id] []
+5. back dengan steps sebanyak 2 [instagram.com, twitter.com] [itb.ac.id, google.com]
+6. forward dengan steps sebanyak 1 [instagram.com, twitter.com, google.com] [itb.ac.id]
+7. back dengan steps sebanyak 1 [instagram.com, twitter.com] [itb.ac.id, google.com]
+8. buka facebook.com [instagram.com, twitter.com, facebook.com] [] -> tiap buka browser baru, historynya di free

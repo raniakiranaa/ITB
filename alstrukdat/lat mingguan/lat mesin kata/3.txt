@@ -1,0 +1,132 @@
+
+KAMUS UMUM
+{ ***** Mesin lain yang dipakai ***** }
+use MESINTOKEN
+
+{ ***** Konstanta ***** }
+constant MARK: character = '.'
+constant BLANK: character = ' '
+
+{ ***** Definisi Type Token ***** }
+type Token: < buffer: array [0..N_MAX-1] of character,
+length: integer >
+{ buffer adalah tempat penampung/container token,
+length menyatakan panjangnya token }
+
+{ ***** Definisi State Mesin Token ***** }
+endToken: boolean { penanda akhir akuisisi token }
+currentToken : Token { token yang sudah diakuisisi dan akan diproses }
+
+{***** Primitif-Primitif Mesin Token *****}
+procedure ignoreBlank
+{ Mengabaikan satu atau beberapa BLANK }
+{ I.S.: cc sembarang}
+{ F.S.: cc ≠ BLANK atau cc = MARK }
+procedure startToken
+{ I.S.: cc sembarang}
+{ F.S.: endToken = true, dan cc = Mark;
+{       atau endToken = false,
+        currentToken adalah token yang sudah diakuisisi,
+        cc karakter pertama sesudah karakter terakhir token }
+procedure advToken
+{ I.S.: cc adalah karakter pertama token yang akan diakuisisi}
+{ F.S.: currentToken adalah token terakhir yang sudah diakuisisi,
+cc adalah karakter pertama sesudah karakter terakhir token}
+{ Proses: Akuisisi token menggunakan procedure salinToken }
+procedure salinToken
+{ Mengakuisisi token, menyimpan dalam currentToken }
+{ I.S.: cc adalah karakter pertama dari token }
+{ F.S.: currentToken berisi token yang sudah diakuisisi;
+cc = BLANK atau cc = MARK;
+cc adalah karakter sesudah karakter terakhir yang diakuisisi }
+function isOperator (cc: character) -> boolean
+{ Menghasilkan true jika cc adalah operator }
+
+procedure ignoreBlank
+{ Mengabaikan satu atau beberapa BLANK }
+{ I.S.: cc sembarang}
+{ F.S.: cc ≠ BLANK atau cc = MARK }
+KAMUS LOKAL
+
+ALGORITMA
+    while (cc = BLANK) do
+        adv
+    { cc ≠ BLANK }
+
+procedure startToken
+{ I.S.: cc sembarang}
+{ F.S.: endToken = true, dan cc = Mark;
+{       atau endToken = false,
+        currentToken adalah token yang sudah diakuisisi,
+        cc karakter pertama sesudah karakter terakhir token }
+KAMUS LOKAL
+
+ALGORITMA
+    start
+    ignoreBlank
+    if (cc = MARK) then
+        endToken ← true
+    else
+        endToken ← false
+        salinToken
+
+procedure advToken
+{ I.S.: cc adalah karakter pertama token yang akan diakuisisi}
+{ F.S.: currentToken adalah token terakhir yang sudah diakuisisi,
+cc adalah karakter pertama sesudah karakter terakhir token}
+{ Proses: Akuisisi token menggunakan procedure salinToken }
+KAMUS LOKAL
+
+ALGORITMA
+    ignoreBlank
+    if (cc=MARK) then
+        endToken ← true
+    else
+        salinToken
+
+procedure salinToken
+{ Mengakuisisi token, menyimpan dalam currentToken }
+{ I.S.: cc adalah karakter pertama dari token }
+{ F.S.: currentToken berisi token yang sudah diakuisisi;
+cc = BLANK atau cc = operator;
+cc adalah karakter sesudah karakter terakhir yang diakuisisi }
+KAMUS LOKAL
+    i: integer
+ALGORITMA
+    i ← 0
+    Temp <- 0
+    repeat
+        if (cc = BLANK) then
+            Temp <- i
+            currentToken.buffer[i] <- cc
+        else
+            currentToken.buffer[i] ← cc
+            adv
+        i ← i + 1
+    until (cc = MARK) or isOperator(cc)
+    { cc = MARK or cc = operator }
+    currentToken.length ← i+1
+    currentToken.buffer[Temp] <- currentToken.buffer[currentToken.length] 
+
+function isOperator (cc: character) -> boolean
+{ Menghasilkan true jika cc adalah operator }
+KAMUS LOKAL
+
+ALGORITMA
+    -> ((cc = '*') or (cc = '/') or (cc = '+') or (cc = '-') or (cc = '^'))
+
+Program menulisEkspresi
+KAMUS
+    { *** Mesin yang dipakai *** }
+    USE MESINTOKEN
+    
+    i:integer
+    pita: Token
+
+ALGORITMA
+    startToken
+    i <- 0
+    while not endToken do
+        pita[i] <- currentToken
+        advToken
+        i <- i+1

@@ -1,0 +1,214 @@
+{ Menggunakan asumsi array rata kiri }
+
+{ implisit }
+
+function getFirstIdx (l:List) -> integer
+{ Prekondisi : l tidak kosong
+Mengirimkan indeks fisik elemen pertama }
+
+KAMUS LOKAL
+
+ALGORITMA
+    -> 0
+
+function getLastIdx (l: list) -> integer
+{ Prekondisi : l tidak kosong
+Mengirimkan indeks fisik elemen terakhir}
+
+KAMUS LOKAL
+    i: integer
+    mark: constant integer = -9999
+
+ALGORITMA
+    { inisiasi variabel }
+    i <- 0
+
+    { proses }
+    while (not mark) do
+        i <- i+1
+    
+    -> i
+
+
+{ eksplisit }
+
+function getFirstIdx (l:List) -> integer
+{ Prekondisi : l tidak kosong
+Mengirimkan indeks fisik elemen pertama }
+
+KAMUS LOKAL
+
+ALGORITMA
+    -> 0
+
+function getLastIdx (l: list) -> integer
+{ Prekondisi : l tidak kosong
+Mengirimkan indeks fisik elemen terakhir}
+
+KAMUS LOKAL
+
+ALGORITMA
+    -> l.neff-1
+
+
+{ Fungsi di soal 1 untuk representasi implisit }
+
+function isSimetris (l: List) → boolean
+{ Menghasilkan true jika List l simetrik. }
+{ List disebut simetrik jika:
+- elemen pertama = elemen terakhir,
+- elemen kedua = elemen sebelum terakhir,
+- dan seterusnya.
+List kosong adalah List simetris }
+
+KAMUS LOKAL
+    i,j: integer
+    simetris: boolean
+
+ALGORITMA
+    { inisiasi variabel }
+    i <- 0
+    j <- length(l)-1
+    simetris <- True
+    
+    { proses }
+    if (isEmpty(l)) then { Jika List kosong }
+        simetris <- True
+    else { List tidak kosong }
+        i traversal [0..(getLastIdx(l)+1)/2]
+            if (getElmt(l,i) ≠ getElmt(l,j)) then
+                simetris <- False            
+            j <- j-1
+        
+    -> simetris
+
+function plusTab (l1,l2: List) → List
+{ Prekondisi: l1 dan l2 berukuran sama dan tidak kosong. }
+{ Mengirimkan l1+l2, yaitu penjumlahan setiap elemen l1 dan l2
+pada indeks yang sama (seperti penjumlahan vektor dalam matematika).}
+
+KAMUS LOKAL
+    i: integer
+    l3: array [0..length(l1)-1] of integer
+
+ALGORITMA
+    { inisiasi variabel }
+    i <- 0
+
+    { Membuat list baru untuk output }
+    CreateList(l3)
+
+    { proses }
+    while (i<getLastIdx(l)) do
+        insertFirst(l3, getElmt(l1,i) + getElmt(l2,i))
+        i <- i+1
+    -> l3
+
+function countOccurence(l: List, x: ElType) → integer
+{ Menghasilkan berapa banyak kemunculan elemen bernilai x di List l. }
+{ Jika l kosong, menghasilkan 0. }
+
+KAMUS LOKAL
+    i, count: integer
+
+ALGORITMA
+    { inisiasi variabel }
+    i <- 0
+    count <- 0
+
+    { proses }
+    if isEmpty(l) then { jika list kosong }
+        count <- 0
+    else
+        while (i<getLastIdx) do
+            if (getElmt(l,i) = x) then
+                count <- count + 1
+            i <- i+1
+    
+    -> count
+
+
+function isEqual (l1,l2:List) → boolean
+{ Mengirimkan true jika l1 setara dengan l2, yaitu jika ukuran
+l1 sama dengan ukuran l2 dan semua elemen l1 dan l2 pada indeks
+yang sama bernilai sama; L1 dan L2 tidak kosong. }
+
+KAMUS LOKAL
+    i: integer
+    cek: boolean
+
+ALGORITMA
+    { inisiasi variabel }
+    i <- 0
+    cek <- True
+
+    { proses }
+    { ukuran l1 tidak sama dengan l2 }
+    if (getLastIdx(l1) ≠ getLastIdx(l2)) then
+        cek <- False
+    else
+        while (i<getLastIdx(l1) and cek) do
+            if(getElmt(l1,i) ≠ getElmt(l2,i)) then
+                cek <- False
+            i <- i+1
+
+    -> cek 
+
+function indexOf (l:List, x:ElType) → IdxType
+{ Mencari apakah ada elemen List l yang bernilai x. }
+{ Jika ada, menghasilkan indeks i terkecil, di mana elemen l ke-i = x.
+Jika tidak ada, mengirimkan indeks tak terdefinisi (idxUndef).
+Jika list kosong, menghasilkan indeks tak terdefinisi (idxUndef). }
+{ Memakai skema searching tanpa boolean. }
+
+KAMUS LOKAL
+    i: integer
+
+ALGORITMA
+    { inisiasi variabel }
+    i <- 0
+
+    { proses }
+    if isEmpty(l) then { Jika list kosong }
+        -> idxUndef
+    else { List tidak kosong }
+        while (i<getLastIdx(l)) do
+            if (getElmt(l,i)=x) then
+                -> i
+            i <- i+1
+
+        -> idxUndef
+
+procedure insertUnique (input/output l:List, input x:ElType)
+{ Menambahkan x sebagai elemen terakhir list l,
+pada list dengan elemen unik. }
+{ I.S. List l boleh kosong, tetapi tidak penuh
+dan semua elemennya bernilai unik, tidak terurut.
+F.S. Menambahkan x sebagai elemen terakhir l
+jika belum ada elemen yang bernilai x.
+Jika sudah ada elemen list yang bernilai x
+maka I.S. = F.S. dan dituliskan pesan
+“nilai sudah ada”. }
+
+{ Proses : Cek apakah X ada dengan sequential search
+dengan sentinel, kemudian tambahkan jika belum ada. }
+
+KAMUS LOKAL
+    i: integer
+    cek: boolean
+
+ALGORITMA
+    { inisiasi variabel }
+    i <- 0
+    cek <- False
+
+    { proses }
+    while (i<getLastIdx(l) and not cek) do
+        if (getElmt(l,i) = x) then
+            cek <- True
+        i <- i+1
+    
+    if not cek then
+        insertLast(l,x)
+    else
+        output("nilai sudah ada")

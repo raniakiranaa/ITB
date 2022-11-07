@@ -1,0 +1,62 @@
+function isAnagram (k1,k2: Kata) -> boolean
+{ Menghasilkan True jika k1 dan k2 adalah anagram }
+
+KAMUS LOKAL
+    { *** Mesin yang digunakan *** }
+    USE MesinKata1
+
+    i,j: integer
+    bener: integer { berfungsi sebagai bool untuk mengetahui apakah semua elemen dalam k1 sama dengan k2 }
+    cek: boolean
+
+ALGORITMA LOKAL
+    if (K1.length == K2.length) then
+        bener <- 0
+        i traversal [0..K1.length[i]-1] { cek setiap elemen dalam k1 }
+            cek <- True
+            while cek do
+                j traversal [0..K2.length[i]-1] { cek setiap elemen dalam k2 apakah ada yg sama dengan k1 }
+                    if (k1.buffer[i] == k2.buffer[j]) then
+                        k2.buffer[j] <- "" { delete elemen yang sama dengan k1 }
+                        bener <- bener + 1
+                        cek <- False
+                
+        if (bener == K1.length) then { elemen dalam k1 dan k2 semua sama }
+            -> True
+        else
+            -> False
+    else
+        -> False
+
+Program hitungAnagram
+{ Menghitung ada berapa banyak kata yang anagram dengan kata pertama pada pita karakter (tidak termasuk kata pertama) 
+Kata dikatakan anagram jika memiliki panjang yang sama, terdiri atas huruf yang sama dan masing-masing huruf memiliki jumlah yang sama. }
+
+KAMUS
+    { *** Mesin yang digunakan *** }
+    USE MesinKata1
+
+    nAnagram: integer { menghitung banyak anagram }
+    i: integer
+
+    function isAnagram (k1, k2: Kata) -> boolean
+    { Menghasilkan True jika k1 dan k2 adalah anagram }
+
+ALGORITMA
+    nAnagram <- 0
+    startKata
+    if endKata then
+        output("Pita karakter kosong")
+    else
+        { Menyimpan informasi kata pertama }
+        kataPertama.length <- currentKata.length
+        i traversal [0..(kataPertama.length)-1]
+            kataPertama.buffer[i] <- currentKata.buffer[i]
+        advKata
+        while not endKata do
+            if (isAnagram(kataPertama, currentKata)) then
+                nAnagram <- nAnagram + 1
+            advKata
+        
+        output("Banyak kata yang anagram dengan kata pertama sebanyak ", nAnagram)
+        

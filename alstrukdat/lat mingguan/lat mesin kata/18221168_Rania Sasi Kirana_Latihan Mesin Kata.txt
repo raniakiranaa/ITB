@@ -1,0 +1,242 @@
+Rania Sasi Kirana
+18221168
+LATIHAN MESIN KATA
+
+LATIHAN NOMER 1
+Program FrekuensiKataPertama
+{ Menghitung frekuensi kemunculan kata pertama dalam pita. }
+
+KAMUS
+    { *** Mesin yang digunakan *** }
+    USE MesinKata1
+
+    nbKata: integer { banyaknya kata dalam pita }
+    nKataPertama: integer { frekuensi kemunculan kata pertama dalam pita }
+    i: integer
+    cek: boolean
+    kataPertama: Kata
+
+ALGORITMA
+    startKata
+    if endKata then
+        output("Pita karakter kosong")
+    else
+        nbKata <- 1
+        nKataPertama <- 1 { kata pertama dihitung }
+        { Menyimpan informasi kata pertama }
+        kataPertama.length <- currentKata.length
+        i traversal [0..(kataPertama.length)-1]
+            kataPertama.buffer[i] <- currentKata.buffer[i]
+        advKata
+        while not endKata do
+            cek <- True
+            if (kataPertama.length != currentKata.length) then
+                cek <- False
+            else
+                i traversal [0..(kataPertama.length)-1]
+                    if (kataPertama.buffer[i] != currentKata.buffer[i]) then
+                        cek <- False
+                        
+                if cek then
+                    nKataPertama <- nKataPertama + 1
+            
+            nbKata <- nbKata + 1
+            advKata
+        
+        output("Frekuensi kata pertama dalam pita adalah", nKataPertama, "/", nbKata)
+
+LATIHAN NOMER 2
+function isAnagram (k1,k2: Kata) -> boolean
+{ Menghasilkan True jika k1 dan k2 adalah anagram }
+
+KAMUS LOKAL
+    { *** Mesin yang digunakan *** }
+    USE MesinKata1
+
+    i,j: integer
+    bener: integer { berfungsi sebagai bool untuk mengetahui apakah semua elemen dalam k1 sama dengan k2 }
+    cek: boolean
+
+ALGORITMA
+    if (K1.length == K2.length) then
+        bener <- 0
+        i traversal [0..K1.length[i]-1] { cek setiap elemen dalam k1 }
+            cek <- True
+            while cek do
+                j traversal [0..K2.length[i]-1] { cek setiap elemen dalam k2 apakah ada yg sama dengan k1 }
+                    if (k1.buffer[i] == k2.buffer[j]) then
+                        k2.buffer[j] <- "" { delete elemen yang sama dengan k1 }
+                        bener <- bener + 1
+                        cek <- False
+                
+        if (bener == K1.length) then { elemen dalam k1 dan k2 semua sama }
+            -> True
+        else
+            -> False
+    else
+        -> False
+
+Program hitungAnagram
+{ Menghitung ada berapa banyak kata yang anagram dengan kata pertama pada pita karakter (tidak termasuk kata pertama) 
+Kata dikatakan anagram jika memiliki panjang yang sama, terdiri atas huruf yang sama dan masing-masing huruf memiliki jumlah yang sama. }
+
+KAMUS
+    { *** Mesin yang digunakan *** }
+    USE MesinKata1
+
+    nAnagram: integer { menghitung banyak anagram }
+    i: integer
+
+    function isAnagram (k1, k2: Kata) -> boolean
+    { Menghasilkan True jika k1 dan k2 adalah anagram }
+
+ALGORITMA
+    nAnagram <- 0
+    startKata
+    if endKata then
+        output("Pita karakter kosong")
+    else
+        { Menyimpan informasi kata pertama }
+        kataPertama.length <- currentKata.length
+        i traversal [0..(kataPertama.length)-1]
+            kataPertama.buffer[i] <- currentKata.buffer[i]
+        advKata
+        while not endKata do
+            if (isAnagram(kataPertama, currentKata)) then
+                nAnagram <- nAnagram + 1
+            advKata
+        
+        output("Banyak kata yang anagram dengan kata pertama sebanyak ", nAnagram)
+
+LATIHAN NOMER 3
+KAMUS UMUM
+{ ***** Mesin lain yang dipakai ***** }
+use MESINTOKEN
+
+{ ***** Konstanta ***** }
+constant MARK: character = '.'
+constant BLANK: character = ' '
+
+{ ***** Definisi Type Token ***** }
+type Token: < buffer: array [0..N_MAX-1] of character,
+length: integer >
+{ buffer adalah tempat penampung/container token,
+length menyatakan panjangnya token }
+
+{ ***** Definisi State Mesin Token ***** }
+endToken: boolean { penanda akhir akuisisi token }
+currentToken : Token { token yang sudah diakuisisi dan akan diproses }
+
+{***** Primitif-Primitif Mesin Token *****}
+procedure ignoreBlank
+{ Mengabaikan satu atau beberapa BLANK }
+{ I.S.: cc sembarang}
+{ F.S.: cc ≠ BLANK atau cc = MARK }
+procedure startToken
+{ I.S.: cc sembarang}
+{ F.S.: endToken = true, dan cc = Mark;
+{       atau endToken = false,
+        currentToken adalah token yang sudah diakuisisi,
+        cc karakter pertama sesudah karakter terakhir token }
+procedure advToken
+{ I.S.: cc adalah karakter pertama token yang akan diakuisisi}
+{ F.S.: currentToken adalah token terakhir yang sudah diakuisisi,
+cc adalah karakter pertama sesudah karakter terakhir token}
+{ Proses: Akuisisi token menggunakan procedure salinToken }
+procedure salinToken
+{ Mengakuisisi token, menyimpan dalam currentToken }
+{ I.S.: cc adalah karakter pertama dari token }
+{ F.S.: currentToken berisi token yang sudah diakuisisi;
+cc = BLANK atau cc = MARK;
+cc adalah karakter sesudah karakter terakhir yang diakuisisi }
+function isOperator (cc: character) -> boolean
+{ Menghasilkan true jika cc adalah operator }
+
+procedure ignoreBlank
+{ Mengabaikan satu atau beberapa BLANK }
+{ I.S.: cc sembarang}
+{ F.S.: cc ≠ BLANK atau cc = MARK }
+KAMUS LOKAL
+
+ALGORITMA
+    while (cc = BLANK) do
+        adv
+    { cc ≠ BLANK }
+
+procedure startToken
+{ I.S.: cc sembarang}
+{ F.S.: endToken = true, dan cc = Mark;
+{       atau endToken = false,
+        currentToken adalah token yang sudah diakuisisi,
+        cc karakter pertama sesudah karakter terakhir token }
+KAMUS LOKAL
+
+ALGORITMA
+    start
+    ignoreBlank
+    if (cc = MARK) then
+        endToken ← true
+    else
+        endToken ← false
+        salinToken
+
+procedure advToken
+{ I.S.: cc adalah karakter pertama token yang akan diakuisisi}
+{ F.S.: currentToken adalah token terakhir yang sudah diakuisisi,
+cc adalah karakter pertama sesudah karakter terakhir token}
+{ Proses: Akuisisi token menggunakan procedure salinToken }
+KAMUS LOKAL
+
+ALGORITMA
+    ignoreBlank
+    if (cc=MARK) then
+        endToken ← true
+    else
+        salinToken
+
+procedure salinToken
+{ Mengakuisisi token, menyimpan dalam currentToken }
+{ I.S.: cc adalah karakter pertama dari token }
+{ F.S.: currentToken berisi token yang sudah diakuisisi;
+cc = BLANK atau cc = operator;
+cc adalah karakter sesudah karakter terakhir yang diakuisisi }
+KAMUS LOKAL
+    i: integer
+ALGORITMA
+    i ← 0
+    Temp <- 0
+    repeat
+        if (cc = BLANK) then
+            Temp <- i
+            currentToken.buffer[i] <- cc
+        else
+            currentToken.buffer[i] ← cc
+            adv
+        i ← i + 1
+    until (cc = MARK) or isOperator(cc)
+    { cc = MARK or cc = operator }
+    currentToken.length ← i+1
+    currentToken.buffer[Temp] <- currentToken.buffer[currentToken.length] 
+
+function isOperator (cc: character) -> boolean
+{ Menghasilkan true jika cc adalah operator }
+KAMUS LOKAL
+
+ALGORITMA
+    -> ((cc = '*') or (cc = '/') or (cc = '+') or (cc = '-') or (cc = '^'))
+
+Program menulisEkspresi
+KAMUS
+    { *** Mesin yang dipakai *** }
+    USE MESINTOKEN
+    
+    i:integer
+    pita: Token
+
+ALGORITMA
+    startToken
+    i <- 0
+    while not endToken do
+        pita[i] <- currentToken
+        advToken
+        i <- i+1

@@ -1,0 +1,58 @@
+Rania Sasi Kirana
+18221168
+
+1.
+procedure insertFirst(input/output l: List, input x: ElType)
+{I.S. l list yang mencatat elemen pertama (First) dan elemen terakhir (Last). l mungkin kosong.
+F.S. x menjadi elemen pertama l.}
+KAMUS LOKAL
+    p: Address
+ALGORITMA
+    p <- newNode(x)
+    if (p != NIL) then { alokasi berhasil }
+        if (isEmpty(l)) 
+            l.first <- p
+            l.last <- p
+        else
+            p↑.next <- l.first
+            l.first <- p
+
+2.
+procedure insertLast(input/output l:List, input x:ElType)
+{I.S. l list yang mencatat elemen pertama (First) dan elemen terakhir (Last). l mungkin kosong.
+F.S. x menjadi elemen terakhir l.}
+KAMUS LOKAL
+    p: Address
+ALGORITMA
+    p <- newNode(x)
+    if (p != NIL) then { alokasi berhasil }
+        if (isEmpty(l)) then
+            l.first <- p
+        else
+            l.last↑.next <- p
+        l.last <- p
+
+3.
+mengetahui apakah sebuah nilai x terdapat dalam sebuah list l.
+l adalah List yang mencatat elemen pertama (First) dan elemen terakhir (Last)
+dan elemen terakhir adalah dummy.
+
+function search(l:List, x:ElType) -> boolean
+{ Mengembalikan true jika x terdapat dalam l }
+KAMUS LOKAL
+    p: Address
+ALGORITMA
+    if (isEmpty(l)) then
+        -> false
+    else
+        l.last↑.info <- x
+        p <- l.first
+        while (p↑.info != x) do
+            p <- p↑.next
+        { p↑.info == x }
+
+        if (p != l.last) then
+            -> true
+        else
+            -> false
+
