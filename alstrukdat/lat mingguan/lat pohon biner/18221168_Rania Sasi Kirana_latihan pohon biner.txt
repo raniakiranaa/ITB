@@ -1,0 +1,109 @@
+Rania Sasi Kirana
+18221168
+Latihan Pohon Biner (1)
+
+function search (P: BinTree, X: ElType) -> boolean
+{ Mengirimkan true jika ada node dari P yang bernilai X }
+KAMUS LOKAL
+ALGORITMA
+    if (not isTreeEmpty(P)) then
+        if (P↑.info = X) then
+            -> true
+        else
+            search(P↑.left, X)
+            search(P↑.right, X)
+    
+    -> false
+
+function isSkewLeft (P: BinTree) -> boolean
+{ Mengirimkan true jika P adalah pohon condong kiri }
+KAMUS LOKAL
+    cek: boolean
+ALGORITMA
+    cek <- false
+    if (isTreeEmpty(P)) then
+        -> true
+    else
+        depend on (P)
+            isBiner(P) : cek <- false
+            isUnerLeft(P) : isSkewLeft(P↑.left)
+            isUnerRight(P) : cek <- false
+    
+    -> cek
+
+
+function isSkewRight (P: BinTree) -> boolean
+{ Mengirimkan true jika P adalah pohon condong kanan }
+KAMUS LOKAL
+    cek: boolean
+ALGORITMA
+    cek <- false
+    if (isTreeEmpty(P)) then
+        -> true
+    else
+        depend on (P)
+            isBiner(P) : cek <- false
+            isUnerLeft(P) : cek <- false
+            isUnerRight(P) : isSkewRight(P↑.right)
+    
+    -> cek
+
+function level (P: BinTree, X: ElType) -> integer
+{ Mengirimkan level dari node X yang merupakan salah satu daun dari pohon biner P.
+Akar(P) level-nya adalah 1. Pohon P tidak kosong dan elemen-elemennya unik. }
+KAMUS LOKAL
+    level: integer
+ALGORITMA
+    level <- 1
+    if (isOneElmt(P)) then
+        if (P↑.info = X) then
+            -> level
+    else
+        if (!search(P↑.left, X)) then
+            level <- level(P↑.left,X) + 1
+        else
+            -> level
+        
+        if (!search(P↑.right,X)) then
+            level <- level(P↑.right,X) + 1
+        else
+            -> level
+
+procedure addDaun (input/Output P: BinTree,
+                    input X, Y: ElType,
+                    input Kiri: boolean)
+{ I.S. P tidak kosong, X adalah daun Pohon Biner P }
+{ F.S. P bertambah simpulnya, dengan Y sebagai anak kiri X (jika Kiri), atau sebagai
+anak Kanan X (jika not Kiri). Jika ada lebih dari satu daun bernilai X,
+Y ditambahkan pada daun paling kiri. }
+KAMUS LOKAL
+    count_found: integer
+    tempY: Address
+ALGORITMA
+    count_found <- 0
+    tempY <- newTreeNode(Y)
+    if (Kiri) then
+        if (search(P,X)) then
+            P↑.left <- tempY
+    else 
+        if (search(P,X)) then
+            P↑.right <- tempY
+
+    addDaun(P↑.left, X, Y, Kiri)
+    addDaun(P↑.right, X, Y, Kiri)
+
+procedure delDaun (input/Output P: BinTree,
+                    input X: ElType)
+{ I.S. P tidak kosong, minimum 1 daun bernilai X }
+{ F.S. Semua daun yang bernilai X dihapus dari P }
+KAMUS LOKAL
+    temp: Address
+ALGORITMA
+    if (isOneElmt(P)) then
+        if (P↑.info = X) 
+            temp <- P
+            P <- NIL
+            deallocTreeNode(temp)
+    else  
+        delDaun(P↑.left, X)
+        delDaun(P↑.right,X)
