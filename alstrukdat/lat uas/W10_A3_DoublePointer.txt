@@ -1,0 +1,86 @@
+#define NIL NULL
+typedef int ElType;
+typedef struct node *Address;
+typedef struct node {
+    ElType info;
+    Address prev;
+    Address next;
+} Node;
+
+/* Definisi list: */
+/* List kosong: First = Nil and Last = Nil */
+/* Setiap elemen dengan address P dapat diacu Info(P), Prev(P), Next(P) */
+typedef struct {
+    Address first; 
+    Address last;
+} List;
+
+/* Selektor */
+#define INFO(p) (p)->info
+#define PREV(p) (p)->prev
+#define NEXT(p) (p)->next
+#define FIRST(l) ((l).first)
+#define LAST(l) ((l).last)
+
+void insertFirst(List *l, ElType x){
+/* I.S. List l terdefinisi */
+/* F.S. Menambahkan elemen baru x sebagai elemen pertama */
+    address p = Alokasi(x);
+    if (p != NIL) {
+        Next(p) = First(*L);
+        if (!isEmpty(*L)){
+            prev(First(*L)) = p;
+        } else {
+            Last(*L) = p;
+        }
+        First(*L) = p;
+    }
+}
+
+void insertLast(List *l, ElType x){
+/* I.S. List l terdefinisi */
+/* F.S. x ditambahkan sebagai elemen terakhir l yang baru */
+    address p = Alokasi(x);
+    if (p != NIL) {
+        Prev(p) = Last(*L);
+        if (isEmpty(*L)){
+            First(*L) = p;
+        } else {
+            Next(Last(*L)) = p;
+        }
+        Last(*L) = p;
+    }
+}
+
+void deleteFirst(List *l, ElType *x){
+/* I.S. List l tidak kosong */
+/* F.S. x adalah elemen pertama list l sebelum penghapusan */
+/* Elemen list berkurang satu (mungkin menjadi kosong) */
+/* First element yg baru adalah suksesor elemen pertama yang lama */
+    *x = Info(First(*L));
+    address p = First(*L);
+    if (First(*L) == Last(*L)){
+        Last(*L) = NIL;
+    } else {
+        Prev(Next(First(*L))) = NIL;
+    }
+    First(*L) = Next(First(*L));
+    dealokasi(p);
+}
+
+void deleteLast(List *l, ElType *x) {
+/* I.S. List l tidak kosong */
+/* F.S. x adalah elemen terakhir list l sebelum penghapusan */
+/* Elemen list berkurang satu (mungkin menjadi kosong) */
+/* Last element baru adalah predesesor elemen pertama yg lama, jika ada */
+    address p = Last(*L);
+    *x = Info(p);
+    if (First(*L) == Last(*L)){
+        First(*L) = NIL;
+    } else {
+        Next(Prev(Last(*L))) = NIL;
+    }
+    Last(*L) = Prev(Last(*L));
+    dealokasi(p);
+
+}

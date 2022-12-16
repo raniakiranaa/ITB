@@ -1,0 +1,36 @@
+function bSearch (p: BinTree, x: ElType) → boolean
+{ Mengirimkan true jika ada node dari p (BST) yang bernilai x }
+KAMUS LOKAL
+ALGORITMA
+    if (isTreeEmpty(p)) then
+        -> false
+    else
+        depend on (x, p↑.info.key)
+            x.key = p↑.info.key : -> true
+            x.key > p↑.info.key : bSearch(p↑.right, x)
+            x.key < p↑.info.key : bSearch(p↑.left, x)
+
+function isBTree (p: BinTree) → boolean
+{ Mengirimkan true jika p adalah balanced tree. Asumsi: p tidak kosong }
+KAMUS LOKAL
+ALGORITMA
+    if (isTreeOneElmt(p)) then { Basis }
+        → true
+    else { Rekurens }
+        depend on p↑.left, p↑.right
+            isBTree(p↑.left) and isBTree(p↑.right) and (height(p↑.left) = height(p↑.right)) : → true
+            otherwise : → false
+
+
+function buildBST (infos: array [0..99] of integer, nEff: integer) → BinTree
+{ Mengirimkan BST yang semua elemennya ada di infos (tidak terurut dan tidak unik).
+Infos selalu diisi dari 1. nEff adalah jumlah elemen infos yang terdefinisi, 0 jika
+kosong. }
+KAMUS LOKAL
+ALGORITMA
+    if (nEff = 0) then { Basis }
+        → NIL
+    else { Rekurens }
+        p ← buildBST(infos, nEff-1)
+        insSearchTree(infos[nEff], p)
+        → p

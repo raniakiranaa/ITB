@@ -1,0 +1,501 @@
+GRAF PERTEMANAN 
+
+constant Nil : ...
+type adrOrang: pointer to Orang 
+type adrTeman: pointer to Teman 
+type Orang: < Nama  : string,
+              Teman : adrTeman,
+              Next  : adrOrang >
+
+type Teman: < Nama  : string,
+              Next  : adrTeman >
+
+type Graph: < First  : adrOrang >
+
+procedure createGraph (input NamaX: string, output G: Graph)
+{ I.S. Sembarang;
+F.S. Terbentuk Graph untuk satu orang dengan Nama=NamaX tanpa punya teman }
+KAMUS LOKAL
+ALGORITMA
+    G.First = newOrang(NamaX)
+
+function newOrang (NamaX: string) -> adrOrang
+KAMUS LOKAL
+    O : adrOrang
+ALGORITMA
+    Alokasi(O)
+    if (O != NIL) then
+        Nama(O) <- NamaX
+        Teman(O) <- NIL
+        Next(O) <- NIL
+    -> O
+
+procedure dealokOrang (input/output O: adrOrang)
+KAMUS LOKAL
+ALGORITMA
+    free(O)
+
+function newTeman(NamaX : string) -> adrTeman
+KAMUS LOKAL
+    T: adrTeman
+ALGORITMA
+    Alokasi(T)
+    if (T != NIL) then
+        Nama(T) <- NamaX
+        Next(T) <- NIL
+    -> T
+
+procedure dealokTeman(input/output T: adrTeman)
+KAMUS LOKAL
+ALGORITMA
+    free(T)
+
+function cariOrang(G: Graph, siX: string) -> adrOrang
+{ Mengembalikan alamat orang dengan nama = siX ada pada G, nil jika tak ada}
+KAMUS LOKAL
+ALGORITMA
+    O <- G
+    found <- false
+    while (O != NIL and not found) do
+        if (Nama(O) = siX) then
+            found <- true
+        else
+            O <- Next(O)
+    -> O
+
+procedure tambahOrang(input/output G: Graph,
+                    input siX: string,
+                    output po: adrOrang)
+{ I.S. G, siX terdefinisi, siX belum ada pada G }
+{ F.S. Jika alokasi berhasil, siX ditambahkan pada G dengan alamat po }
+KAMUS LOKAL
+ALGORITMA
+    po = newOrang(siX)
+    if (po != NIL) then
+        O <- G
+        while (Next(O) != NIL) do
+            O <- Next(O)
+        Next(O) <- po
+
+procedure tambahTeman (input/output G: Graph,
+                    input siA, siB: string)
+{ I.S. G, siA, dan siB terdefinisi; siA dan siB mungkin belum ada pada G,
+siA dan siB belum berteman }
+{ F.S. Jika alokasi berhasil, ada pertemanan antara siA dan siB pada Graph
+Jika ada alokasi gagal siA sbg teman siB dan siB sebagai teman siA harus dihapus agar 
+G tetap konsisten; tapi siA dan/atau siB sbg orang tidak perlu dihapus dari G }
+KAMUS LOKAL
+    pA, pB : adrOrang
+    tA, tB, newA, newB : adrTeman
+ALGORITMA
+    { jika siA dan siB belum ada di G }
+    if (cariOrang(siA) = NIL) then
+        tambahOrang(G, siA, pA)
+    
+    if (cariOrang(siB) = NIL) then
+        tambahOrang(G, siB, pB)
+
+    newA <- newTeman(siA)
+    newB <- newTeman(siB)
+
+    { klo alokasi berhasil baru berteman }
+    if (pA != NIL and pB != NIL and newA != NIL and newB != NIL) then
+        { tambah teman A }
+        tA <- Teman(pA)
+        while (Next(tA) != NIL) then
+            tA <- Next(tA)
+        Next(tA) <- newB
+
+        tB <- Teman(pB)
+        while (Next(tB) != NIL) then
+            tB <- Next(tB)
+        Next(tB) <- newA
+
+function palingGaul (G: Graph) -> string 
+{ Mengembalikan nama orang yang paling banyak temannya;
+atau "-" jika semua orang tidak punya teman }
+KAMUS LOKAL
+    O: adrOrang
+    teman_O, max_teman : integer
+    orang_gaul : string
+    adr_temanO : adrTeman
+ALGORITMA
+    O <- G
+    orang_gaul <- "-"
+    max_teman <- 0
+    while (O != NIL) do
+        adr_tmnO <- Teman(O)
+        teman_O <- 0
+        while (adr_temanO != NIL) do
+            teman_O <- teman_O + 1
+            adr_temanO <- Next(adr_temanO)
+        { adr_temanO = NIL }
+        
+        if (teman_O > max_teman) then
+            max_teman <- teman_O
+            orang_gaul <- Nama(O)
+        O <- Next(O)
+    { O = NIL }
+    
+    -> orang_gaul
+
+function apakahBerteman(G: Graph, siX: string) -> boolean
+{ Mengembalikan true jika siX ada pada G dan berteman dengan orang paling gaul, 
+false jika tidak }
+KAMUS LOKAL
+    orang_gaul : string
+    O : adrOrang
+    T : adrTeman
+ALGORITMA
+    found <- false
+    if (cariOrang(G, siX) != NIL) 
+        O <- G
+        while (O != NIL and Nama(O) != siX) do
+            O <- Next(O)
+
+        orang_gaul <- palingGaul(G)
+        if (orang_gaul != '-') then 
+            T <- Teman(O)
+            while (T != NIL and not found) do
+                if (Nama(T) = orang_gaul) then
+                    found <- true
+                T <- Next(T)
+        
+    -> found
+
+STUDI KASUS RELASI M-N
+type AdrMgr: { type terdefinisi, alamat sebuah elemen list Manager }
+type AdrFC : { type terdefinisi, alamat sebuah elemen list Football Club }
+type AdrCt : { type terdefinisi, alamat sebuah elemen list Contract }
+
+type Manager      : < Nama : string, NextMgr : AdrMgr >
+type FootballClub : < NamaFC : string, JumlahMgr : intrge, NextFC : AdrFC >
+type Contract     : < PMgr : AdrMgr, PFC : AdrFC, NextContract : AdrCt >
+                    { PMgr contract dengan Football Club PFC }
+
+type ListMgr      : AdrMgr
+type ListFC       : AdrFC
+type ListContract : AdrCt
+
+{ *** Fungsi/Prosedur *** }
+function alokMgr (nama: string) -> AdrMgr
+{ Mengalokasikan elemen list Manager bertipe AdrMgr, jika gagal akan mengirimkan NIL }
+KAMUS LOKAL
+    Mgr : AdrMgr
+ALGORITMA
+    Alokasi(Mgr)
+    if (Mgr != NIL) then
+        Nama(Mgr) <- nama
+        NextMgr(Mgr) <- NIL
+
+    -> Mgr
+
+function alokContract (M1: AdrMgr, F1 : AdrFC) -> AdrCt
+{ Mengalokasikan elemen list Contract bertipe AdrCt, jika gagal akan mengirimkan NIL }
+KAMUS LOKAL
+    Ct : AdrCt
+ALGORITMA
+    Alokasi(Ct)
+    if (Ct != NIL) then
+        PMgr(Ct) <- M1
+        PFC(Ct) <- F1
+        NextContract(Ct) <- NIL
+    
+    -> Ct
+
+function alokFC(namaFC: string, jumlah: integer) -> AdrFC
+{ Mengalokasikan elemen list FootballClub bertipe AdrFC, jika gagal akan mengirimkan NIL }
+KAMUS LOKAL
+    FC : AdrFC
+ALGORITMA
+    Alokasi(FC)
+    if (FC != NIL) then
+        NamaFC(FC) <- namaFC
+        JumlahMgr(FC) <- jumlah
+        NextFC(FC) <- NIL
+    
+    -> FC
+
+procedure addContract (input FirstMgr : ListMgr, input/output FirstFC : ListFC,
+                    input/output FirstContract: ListContract,
+                    input PMgr : AdrMgr, input PFC: AdrFC)
+{ Menambah contract baru yang menyatakan adanya pergantian manager PMgr mengelola
+football Club PFC.
+I.S. PMgr dan PFC masing-masing ada di list FirstMgr dan list FirstFC.
+F.S. Jika alokasi berhasil, sebuah contract baru yang menyatakan adanya contract antara
+PMgr dan PFC ditambahkan; jumlah manager yang pernah menangani PFC disesuaikan,
+Jika alokasi tidak berhasil, tidak ada perubahan pada list contract }
+KAMUS LOKAL
+    Ct, temp : AdrCt
+    FC : AdrFC
+ALGORITMA
+    Ct <- alokContract(PMgr, PFC)
+    if (Ct != NIL) then     { alokasi berhasil }
+        temp <- FirstContract
+        while (NextContract(temp) != NIL) then
+            temp <- NextContract(temp)
+        NextContract(temp) <- Ct
+    
+        { ubah jumlah manager di ListFC }
+        FC <- FirstFC
+        while (FC != NIL and NamaFC(FC) != NamaFC(AdrFC)) do
+            FC <- NextFC(FC)
+        JumlahMgr(FC) <- JumlahMgr(FC) + 1
+
+function portofolio (FirstMgr : ListMgr, FirstFC : ListFC, FirstContract : ListContract, Mgr : string) -> real 
+KAMUS LOKAL
+    FC : AdrFC
+    Ct : AdrCt
+    countFC, countCt : integer
+ALGORITMA
+    { hitung jumlah FC }
+    FC <- FirstFC
+    countFC <- 0
+    while (FC != NIL) do
+        countFC <- countFC + 1
+        FC <- NextFC(FC)
+    
+    { hitung jumlah contract }
+    Ct <- FirstContract
+    countCt <- 0
+    while (CT != NIL) do
+        if (Nama(PMgr(CT)) = Mgr) then
+            countCt <- countCt + 1
+        CT <- NextContract(CT)
+    
+    -> countCt/countFC
+
+function isAlumni (FirstMgr : ListMgr, FirstFC : ListFC, FirstContract : ListContract, 
+                    M1 : string, M2 : string) -> boolean
+{ Mencari tahu apakah manager M1 dan M2 pernah menangani FC yang sama }
+KAMUS LOKAL
+ALGORITMA
+    Ct1 <- FirstContract
+    found <- false
+    while (Ct1 != NIL and not found) do
+        if (Nama(PMgr(Ct1)) = M1) then
+            FC1 <- NamaFC(PFC(Ct1))
+            Ct2 <- FirstContract
+            while (Ct2 != Nil and not found) do
+                if (Nama(PMgr(Ct2)) = M2) then
+                    FC2 <- NamaFC(PFC(Ct2))
+                    if (FC1 = FC2) then
+                        found <- true
+                Ct2 <- NextContract(Ct2)
+        Ct1 <- NextContract(Ct1)
+    
+    -> found
+
+
+POHON BINER 
+
+{ ADT Cow BST dengan elemen unik }
+{ Pohon Biner dengan representasi pointer }
+constant NIL : ... { terdefinisi }
+type Infotype : <Name: string,
+                Weight: integer,
+                Count: integer>
+type Node : <Info: Infotype,
+            Left: BinTree,
+            Right: BinTree>
+type adrNode : pointer to Node
+type BinTree : adrNode
+{ Selektor   : Jika P adalah BinTree:
+              Weight(P) untuk mengakses bagian P↑.Info.Weight;
+              Count(P) untuk mengakses bagian P↑.Info.Count;
+              Left(P) untuk mengakses bagian P↑.Left;
+              Right(P) untuk mengakses bagian P↑.Right }
+
+{*** Konstruktor ***}
+function MakeTree (X: integer) -> BinTree
+{ Mengirimkan sebuah pohon biner, misalnya P. Weight(P) = X, Count(P) = 1,
+Left(P) = Right(P) = NIL }
+{ Jika alokasi gagal, menghasilkan pohon kosong }
+KAMUS LOKAL
+    P : BinTree
+ALGORITMA
+    Alokasi(P)
+    if (P != NIL) then
+        Weight(P) <- X 
+        Count(P) <- 1
+        Left(P) <- NIL
+        Right(P) <- NIL
+
+    -> P 
+
+function isTreeEmpty (P : BinTree) -> boolean
+{ Mengirimkan true jika P kosong, false jika tidak }
+KAMUS LOKAL
+ALGORITMA
+    -> (P = NIL)
+
+function isTreeOneElmt(P : BinTree) -> boolean
+{ Mengirimkan true jika P tidak kosong dan hanya terdiri atas 1 elemen }
+KAMUS LOKAL
+ALGORITMA
+    -> (!isTreeEmpty(P) and !isUnerLeft(P) and !isUnerRight(P))
+
+function isUnerLeft (P : BinTree) -> boolean
+{ Mengirimkan true jika P hanya memiliki subpohon kiri. Prekondisi : P tidak kosong }
+KAMUS LOKAL
+ALGORITMA
+    -> (Left(P) != NIL and Right(P) = NIL)
+
+function isUnerRight (P : BinTree) -> boolean
+{ Mengirimkan true jika P hanya memiliki subpohon kanan. Prekondisi : P tidak kosong }
+KAMUS LOKAL
+ALGORITMA
+    -> (Left(P) = NIL and Right(P) != NIL)
+
+function isBiner (P : BinTree) -> boolean
+{ Mengirimkan true jika P memiliki subpohon kiri dan kanan. Prekondisi : P tidak kosong }
+KAMUS LOKAL
+ALGORITMA
+    -> (Left(P) != NIL and Right(P) != NIL)
+
+function sumAllWeight (P : BinTree) -> integer
+{ Mengirimkan jumlah total seluruh Weight pada pohon P; Jika Count(pt) > 1 maka
+dihitung sebesar Weight(pt) dikali Count(pt) }
+KAMUS LOKAL
+ALGORITMA
+    if (isTreeEmpty(P)) then
+        -> 0
+    else
+        -> (Weight(P) * Count(P)) + sumAllWeight(Left(P)) + sumAllWeight(Right(P))
+ 
+function maxOccurence (P : BinTree) -> BinTree
+{ Mengirimkan alamat node pada pohon P yang Weight-nya muncul paling banyak (Count-nya
+terbanyak); jika ada lebih dari satu node dengan Count tertinggi, kirimkan alamat 
+node dengan Weight tertinggi; pohon tidak kosong }
+KAMUS LOKAL
+ALGORITMA
+    if (isOneElmt(P)) then
+        -> P 
+    else
+        depend on P 
+            isUnerLeft(P) : rest <- maxOccurence(P)
+            isUnerRight(P) : rest <- maxOccurence(P)
+            isBiner(P) :
+                left <- maxOccurence(P)
+                right <- maxOccurence(P)
+                if (Count(left) = Count(right)) then
+                    if (Weight(left) > Weight(right)) then
+                        rest <- left
+                    else
+                        rest <- right
+                else
+                    if (Count(left) < Count(right)) then
+                        rest <- right
+                    else
+                        rest <- left
+                
+        { bandingin rest sm akar }
+        if (Count(rest) = Count(P)) then
+            if (Weight(rest) > Weight(P)) then
+                -> rest
+            else
+                -> P 
+        else
+            if (Count(rest) > Count(P)) then
+                -> rest
+            else
+                -> P
+        
+
+LIST REKURSIF
+
+constant NIL : ...
+type infotype : integer
+type ElmtList : < Info : infotype, Next : address >
+type address  : pointer to ElmtList
+type List     : address { alamat elemen pertama List }
+
+{ *** Selektor *** }
+{ Jika L : List dan P : address, L untuk mengakses elemen pertama L;
+Next(P) untuk mengakses P↑.Next; dan Info(P) untuk mengakses P↑.Info }
+
+{ *** Predikat pemeriksaan *** }
+function isEmpty(L : List) -> boolean
+{ Mengirimkan true jika list kosong, false jika tidak kosong }
+KAMUS LOKAL
+ALGORITMA
+    -> (L = NIL)
+
+function isOneElmt(L : List) -> boolean
+{ Mengirimkan true jika list hanya berisi satu elemen, false jika tidak }
+KAMUS LOKAL
+ALGORITMA
+    -> (!isEmpty(L) and Next(L) = NIL)
+
+{ *** Manajemen Memori *** }
+function newNode (x : infotype) -> Address
+{ Mengirimkan address hasil alokasi sebuah elemen }
+{ Jika alokasi berhasil, maka address tidak NIL, dan misalnya
+menghasilkan p, maka Info(p) = x, Next(p) = NIL }
+{ Jika alokasi gagal, mengirimkan NIL }
+KAMUS LOKAL
+    p : Address
+ALGORITMA
+    Alokasi(p)
+    if (p != NIL) then
+        Info(p) <- x 
+        Next(p) <- NIL
+
+    -> p 
+
+procedure dealokasi (input/output addr : Address)
+{ I.S. addr tidak NIL }
+{ F.S. addr sudah dibebaskan dari memori }
+KAMUS LOKAL
+ALGORITMA
+    free(addr)
+
+function isKelipatanX (L: List, x : integer) -> boolean
+{ Menerima list L yang tidak kosong dan x integer, mengembalikan true jika seluruh elemen
+list L kelipatan x, false jika tidak }
+KAMUS LOKAL
+    p : Address
+ALGORITMA
+    if (isOneElmt(L)) then
+        -> Info(L) mod x = 0
+    else
+        -> Info(L) mod x = 0 and isKelipatanX(L↑.next, x)
+
+function copyList (L: List) -> List
+{ Menerima list L yang mungkin kosong, mengembalikan list baru dengan elemen yang sama
+persis dengan elemen list L }
+KAMUS LOKAL
+    l1 : list
+ALGORITMA
+    createList(l1)
+    if (isOneElmt(L)) then
+        Info(l1) <- Info(L)
+        Next(l1) <- NIL
+        -> l1
+    else
+        Info(l1) <- Info(L)
+        Next(l1) <- copyList(Next(L))
+        -> l1
+        
+
+function sortedMerge (L1, L2 : List) -> List
+{ Menerima list L1 dan L2 yang terurut membesar dan mungkin kosong
+Mengembalikan list yang merupakan gabungan dari L1 & L2 dan tetap terurut membesar
+Asumsi : alokasi selalu berhasil }
+KAMUS LOKAL
+    L3 : List
+ALGORITMA
+    createList(L3)
+    if (isEmpty(L1)) then
+        -> L1
+    else if (isEmpty(L2)) then
+        -> L2
+    else
+        if (Info(L1) < Info(L2)) then
+            Info(L3) <- Info(L1)
+            Next(L3) <- sortedMerge(Next(L1), L2)
+            -> L3
+        else
+            Info(L3) <- Info(L2)
+            Next(L3) <- sortedMerge(L1, Next(L2))
+            -> L3

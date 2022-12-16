@@ -1,0 +1,93 @@
+#define NIL NULL
+typedef int ElType;
+typedef struct node* Address;
+typedef struct node { ElType info; address next; } Node;
+/* Definisi list: */
+/* List kosong: FIRST(l) = NIL */
+/* Setiap elemen dengan address p dapat diacu INFO(p), NEXT(p) */
+/* Elemen terakhir list: jika addressnya last,
+maka NEXT(last) = FIRST(l) */
+typedef struct {
+    address first;
+} List;
+
+/* Selektor */
+#define INFO(p) (p)->info
+#define NEXT(p) (p)->next
+#define FIRST(l) ((l).first)
+
+boolean addrSearch(List l, Address p){
+/* Mencari apakah ada elemen list l yang beralamat p */
+/* Mengirimkan true jika ada, false jika tidak ada */
+    if (isEmpty(l)){
+        return false;
+    } else {
+        address temp = First(*L);
+        while (Next(temp) != First(*L) && temp != p){
+            temp = Next(temp);
+        }
+
+        return (temp == p);
+    }
+}
+
+void insertFirst(List *l, ElType x){
+/* I.S. List l terdefinisi */
+/* F.S. Menambahkan elemen bernilai x sebagai elemen pertama */
+    address p = Alokasi(x);
+    if (isEmpty(*l)) {
+        Next(p) = p;
+    } else {
+        adress last = First(*l);
+        while (Next(last) != First(*l)){
+            last = Next(last);
+        }
+        Next(last) = p;
+        Next(p) = First(*l);
+    }
+    First(*l) = p;
+}
+
+void insertLast(List *l, ElType x){
+/* I.S. List l terdefinisi */
+/* F.S. x ditambahkan sebagai elemen terakhir l yang baru */
+    address p = Alokasi(x);
+    if (!isEmpty(*l)){
+        address last = First(*l);
+        while (Next(last) != First(*l)){
+            last = Next(last);
+        }
+        Next(last) = p;
+        Next(p) = First(*L);
+    } else {
+        insertFirst(l, x);
+    }
+}
+
+void deleteFirst(List *l, ElType *x){
+/* I.S. List l tidak kosong */
+/* F.S. x adalah elemen pertama list l sebelum penghapusan */
+/* Elemen list berkurang satu (mungkin menjadi kosong) */
+/* First element yg baru adalah suksesor elemen pertama yang lama */
+
+}
+
+void deleteLast(List *l, ElType *x);
+/* I.S. List l tidak kosong */
+/* F.S. x adalah elemen terakhir list sebelum penghapusan */
+/* Elemen list berkurang satu (mungkin menjadi kosong) */
+/* Last element baru adalah predesesor elemen pertama yg lama, jika ada */
+void DelAfter (List *L, address *Pdel, address Prec);
+/* I.S. List tidak kosong. Prec adalah anggota list  */
+/* F.S. Menghapus Next(Prec): */
+/*      Pdel adalah alamat elemen list yang dihapus  */
+void DelP (List *L, infotype X);
+/* I.S. Sembarang */
+/* F.S. Jika ada elemen list beraddress P, dengan Info(P)=X  */
+/* Maka P dihapus dari list dan di-dealokasi */
+/* Jika tidak ada elemen list dengan Info(P)=X, maka list tetap */
+/* List mungkin menjadi kosong karena penghapusan */
+void displayList(List l);
+/* I.S. List l mungkin kosong */
+/* F.S. Jika list tidak kosong, semua nilai (info) yg disimpan pada elemen list diprint */
+/* Jika list kosong, hanya menuliskan "list kosong" */

@@ -1,0 +1,21 @@
+Buatlah prosedur insertFirst untuk sebuah list l dengan l adalah List yang mencatat
+elemen pertama (First) dan elemen terakhir (Last)
+
+procedure insertFirst(input/output l:List, input x:ElType)
+
+List l mungkin kosong.
+
+Buatlah prosedur insertLast dari sebuah list l dengan l adalah List yang mencatat elemen
+pertama (First) dan elemen terakhir (Last)
+
+procedure insertLast(input/output l:List, input x:ElType)
+
+List l mungkin kosong.
+
+Buatlah fungsi search untuk mengetahui apakah sebuah nilai x terdapat dalam sebuah
+list l. l adalah List yang mencatat elemen pertama (First) dan elemen terakhir (Last) dan
+elemen terakhir adalah dummy.
+
+function search(l:List, x:ElType) → boolean
+
+List L mungkin kosong

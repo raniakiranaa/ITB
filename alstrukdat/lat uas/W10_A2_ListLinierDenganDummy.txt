@@ -1,0 +1,163 @@
+#define NIL NULL
+#define IDX_UNDEF -1
+typedef int ElType;
+typedef struct node* Address;
+typedef struct node {
+    ElType info;
+    Address next;
+} Node;
+
+/* Definisi list: */
+/* List kosong: First(L) = Last(L) = dummy@ */
+/* Setiap elemen dengan address P dapat diacu Info(P), Next(P) */
+/* Elemen dummy terletak pada last */
+typedef struct {
+    address first;
+    address last;
+} List;
+
+/* Selektor */
+#define INFO(P) (P)->info
+#define NEXT(P) (P)->next
+#define FIRST(L) ((L).first)
+#define LAST(L) ((L).last)
+
+/* PROTOTYPE */
+/****************** TEST LIST KOSONG ******************/
+boolean isEmpty(List l){
+/* Mengirim true jika list kosong: FIRST(l) = dummy@
+dan LAST(L) = dummy@ */
+    return (First(l) == Last(L));
+}
+
+/****************** PEMBUATAN LIST KOSONG ******************/
+void CreateList(List *l){
+/* I.S. sembarang */
+/* F.S. Terbentuk list l kosong, dengan satu elemen dummy */
+/* Jika gagal maka FIRST(l) = LAST(l) = NIL dan list gagal terbentuk */
+    Address dummy = Alokasi(0);
+    if (dummy != NIL) {
+        First(*l) = dummy;
+        Last(*l) = dummy;
+    } else {
+        First(*l) = NIL;
+        Last(*l) = NIL;
+    }
+}
+
+/****************** MANAJEMEN MEMORI ******************/
+address Alokasi (ElType X){
+/* Mengirimkan address hasil alokasi sebuah elemen */
+/* Jika alokasi berhasil, maka address tidak nil. */
+/* Misalnya: menghasilkan P, maka Info(P)=X, Next(P)=Nil, Prev(P)=Nil */
+/* Jika alokasi gagal, mengirimkan Nil. */
+    address p = (address) malloc (sizeof(Node))
+    if (p != NIL) {
+        Info(p) = x;
+        Next(p) = NIL;
+    }
+    return p;
+}
+
+void Dealokasi (address P){
+/* I.S. P terdefinisi */
+/* F.S. P dikembalikan ke sistem */
+/* Melakukan dealokasi/pengembalian address P */
+    free(P);
+}
+
+/****************** SEARCHING ******************/
+int indexOf(List l, ElType x){
+/* Mengembalikan indeks node list dengan nilai X, atau IDX_UNDEF jika tidak ada */
+    address p = First(l);
+    int idx = 0;
+
+    // x nya taruh di sentinel buat stop pencarian
+    Info(Last(l)) = x;
+
+    while (Info(p) != X) {
+        idx++;
+        p = Next(p);
+    }
+
+    if (p == Last(l)) {
+        idx = IDX_UNDEF;
+    }
+
+    return idx;
+}
+
+address Search(List L, ElType X){
+/* Mencari apakah ada node list dengan info(P) = X */
+/* Jika ada, mengirimkan address node tersebut. */
+/* Jika tidak ada, mengirimkan Nil */
+    Info(last(l)) = x;
+    address p = First(l);
+    while (Info(p) != x) {
+        p = Next(p);
+    }
+
+    if (p == Last(p)){
+        return NIL;
+    } else {
+        return p;
+    }
+}
+
+/****************** PRIMITIF BERDASARKAN NILAI ******************/
+/*** PENAMBAHAN ELEMEN ***/
+void InsertFirst(List *L, ElType X){
+/* I.S. List L terdefinisi */
+/* F.S. Menambahkan elemen X sebagai elemen pertama List L */
+    address p = Alokasi(X);
+    if (p != NIL) {
+        Next(p) = First(*L);
+        First(*L) = p;
+    }
+}
+
+void InsertLast(List *L, ElType X){
+/* I.S. List L terdefinisi */
+/* F.S. X ditambahkan sebagai elemen terakhir yang baru, */
+/* yaitu menjadi elemen sebelum elemen dummy */
+/* Alamat elemen dummy tidak berubah */
+    address p = Alokasi(X);
+    if (p != NIL) {
+        if (isEmpty(*L)){
+            insertFirst(L, X);
+        } else {
+            address last = First(l);
+            while (Next(last) != Last(*l)){
+                last = Next(last);
+            }
+            Next(last) = p;
+            Next(p) = Last(*L);
+        }
+    }
+}
+
+/*** PENGHAPUSAN ELEMEN ***/
+void DeleteFirst(List *L, ElType *X){
+/* I.S. List tidak kosong */
+/* F.S. X adalah elemen pertama list sebelum penghapusan */
+/* Elemen list berkurang satu (mungkin menjadi kosong) */
+/* First element yg baru adalah suksesor elemen pertama yang lama */
+    *X = Info(First(*L));
+    address p = First(*L);
+    First(*L) = Next(p);
+    Dealokasi(p);
+}
+
+void DeleteLast(List *L, ElType *X){
+/* I.S. List tidak kosong */
+/* F.S. X adalah terakhir sebelum dummy pada list sebelum penghapusan */
+/* Elemen list berkurang satu (mungkin menjadi kosong) */
+    address last = First(*L);
+    while (Next(Next(last)) != Last(*L)){
+        last = Next(last);
+    }
+    address p = Next(last);
+    *X = Info(p);
+    Next(last) = Last(*L);
+    Dealokasi(p);
+}
