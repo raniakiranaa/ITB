@@ -1,0 +1,399 @@
+LIST
+
+KAMUS UMUM
+type ElType : integer
+type Address : pointer to Node
+type Node : < info : ElType,
+            next : Address >
+type List : < First : Address >
+
+function isEmpty(input L : List) -> boolean
+KAMUS LOKAL
+ALGORITMA
+    -> First(L) = NIL
+
+function average(input L : List) -> float
+KAMUS LOKAL
+    p : Address
+ALGORITMA
+    p = First(L)
+    Count <- 0
+    Total <- 0
+    while (p != NIL) do
+        Count <- Count + 1
+        Total <- Total + Info(p)
+        p <- Next(p)
+    { p = NIL }
+    -> Total/Count
+
+function averagerange(input L: List) -> float
+KAMUS LOKAL
+    p : Address
+ALGORITMA
+    p = First(L)
+    Count <- 0
+    Total <- 0
+    while (p != NIL) do
+        if (Info(p)>min and Info(p)<max) then
+            Count <- Count + 1
+            Total <- Total + 1
+        p <- Next(p)
+    { p = NIL }
+    -> Total/Count
+
+function max(input L: List) -> integer
+KAMUS LOKAL
+    P : Address
+ALGORITMA
+    P =  First(L)
+    max = Info(p)
+    while (Next(p) != NIL) do
+        p = Next(p)
+        if (Info(p) > max) then
+            max <- Info(p)
+    -> max
+
+function min(input L: List) -> integer
+KAMUS LOKAL
+    P : Address
+ALGORITMA
+    P =  First(L)
+    min = Info(p)
+    while (Next(p) != NIL) do
+        p = Next(p)
+        if (Info(p) < min) then
+            min <- Info(p)
+    -> min
+
+procedure InsertX (input/output L: List, input x: ElType, output idx: integer)
+KAMUS LOKAL
+ALGORITMA
+
+
+QUEUE
+
+procedure Enqueue(input/output Q: Queue, input X: ElType)
+KAMUS LOKAL
+ALGORITMA
+    p <- Alokasi(x)
+    if (p != NIL) then
+        if (isEmpty(Q)) then
+            ADDR_HEAD(Q) <- p
+        else
+            Next(ADDR_TAIL(Q)) <- P
+            ADDR_TAIL(Q) <- p
+
+
+procedure Dequeque(input/output Q: Queue, output X: ElType)
+KAMUS LOKAL
+ALGORITMA
+    X <- Info(Q)
+    p <- Addr_Head(Q)
+    Addr_Head(Q) <- Next(Addr_Head(Q))
+    if (Addr_Head(Q) = Nil) then
+    Addr_Head(Q) <- Nil
+    Next(p) <- Nil
+    Dealokasi(p)
+
+
+
+PRIORITY QUEUE
+#define Nil NULL
+/* Deklarasi type elemen */
+typedef int ElType;
+/* Priority Queue dengan representasi berkait dengan pointer */
+typedef struct tNode *address;
+typedef struct tNode {
+    ElType info;
+    int prio;
+    address next;
+} Node;
+/* Type PrioQueue dengan HEAD */
+typedef struct {
+    address addrHead; /* alamat elemen pertama */
+} PrioQueue;
+
+void enqueue(PrioQueue *q, ElType x, int pr){
+/* Proses: Mengalokasi x dengan prio pr dan menambahkan x pada q
+jika alokasi berhasil; jika alokasi gagal q tetap */
+KAMUS LOKAL
+ALGORITMA
+    address P;
+    P = newNode(x, pr);
+    if (P != Nil){
+        if (isEmpty(*q)) {
+            ADDR_HEAD(*q) = P;
+        } else {
+            address loc;
+            loc = ADDR_HEAD(*q);
+            if (PRIO(P) < PRIO(loc)) {
+                NEXT(P) = loc;
+                ADDR_HEAD(*q) = P;
+            }
+            else{
+            while ((NEXT(loc) != Nil) && (PRIO(P) >= PRIO(NEXT(loc)))){
+                loc = NEXT(loc);
+
+            }
+                NEXT(P) = NEXT(loc);
+                NEXT(loc) = P;
+            }         
+    }
+ }
+
+void dequeue(PrioQueue *q, ElType *x, int *pr){
+/* Proses: Menghapus x pada bagian HEAD dari q dan mendealokasi elemen HEAD */
+/* Pada dasarnya operasi deleteFirst */
+/* I.S. q tidak mungkin kosong */
+/* F.S. x = nilai elemen HEAD pd I.S., HEAD "mundur" */
+    address P,del;
+
+    *pr = PRIO(ADDR_HEAD(*q));
+    *x = HEAD(*q);
+    del = ADDR_HEAD(*q);
+    P = NEXT(del);
+    ADDR_HEAD(*q) = P;
+    delNode(del);
+}
+
+BINARY TREE 
+
+boolean IsTreeEmpty (BinTree P){
+/* Mengirimkan true jika P adalah pohon biner kosong */
+    return P == Nil;
+}
+
+boolean IsTreeOneElmt (BinTree P){
+/* Mengirimkan true jika P adalah pohon biner tidak kosong dan hanya memiliki 1 elemen */
+    return !IsTreeEmpty(P) && (Left(P) == Nil) && (Right(P) == Nil);
+}
+
+boolean IsUnerLeft (BinTree P){
+/* Mengirimkan true jika pohon biner tidak kosong P adalah pohon unerleft: hanya mempunyai subpohon kiri */
+    if(IsTreeEmpty(P)) return false;
+    else return Left(P) != Nil && Right(P) == Nil;
+}
+
+boolean IsUnerRight (BinTree P){
+/* Mengirimkan true jika pohon biner tidak kosong P adalah pohon unerright: hanya mempunyai subpohon kanan*/
+    if(IsTreeEmpty(P)) return false;
+    else return Left(P) == Nil && Right(P) != Nil;
+}
+
+boolean IsBiner (BinTree P){
+/* Mengirimkan true jika pohon biner tidak kosong P adalah pohon biner: mempunyai subpohon kiri dan subpohon kanan*/
+    if(IsTreeEmpty(P)) return false;
+    else return Left(P) != Nil && Right(P) != Nil;
+}
+
+boolean SearchTree (BinTree P, infotype X){
+/* Mengirimkan true jika ada node dari P yang bernilai X */
+    if(IsTreeEmpty(P)) return false;
+    else{
+        if (Akar(P) == X) return true;
+        else{
+            if (SearchTree(Left(P), X)) return true;
+            else return (SearchTree(Right(P), X));
+        }
+    }
+}
+
+int NbElmt (BinTree P){
+/* Mengirimkan banyaknya elemen (node) pohon biner P */
+    if(IsTreeEmpty(P)) return 0;
+    else return 1 + NbElmt(Left(P)) + NbElmt(Right(P));
+}
+
+int NbDaun (BinTree P){
+/* Mengirimkan banyaknya daun (node) pohon biner P */
+/* Prekondisi: P tidak kosong */
+  if(IsTreeEmpty(P)) return 0;
+  if(IsTreeOneElmt(P)) return 1;
+  else{
+    if (IsUnerLeft(P)) return NbDaun(Left(P));
+    else if (IsUnerRight(P)) return NbDaun(Right(P));
+    else return NbDaun(Left(P)) + NbDaun(Right(P));
+    }
+}
+
+boolean IsSkewLeft (BinTree P){
+/* Mengirimkan true jika P adalah pohon condong kiri */
+/* Pohon kosong adalah pohon condong kiri */
+    if (IsTreeEmpty(P)){
+        return true;
+    }
+    else if (IsTreeOneElmt(P)){
+        return true;
+    }
+    else{
+        return IsSkewLeft(Left(P)) && (Right(P) == Nil);
+    }
+}
+
+boolean IsSkewRight (BinTree P){
+/* Mengirimkan true jika P adalah pohon condong kanan */
+/* Pohon kosong adalah pohon condong kanan */
+    if (IsTreeEmpty(P)){
+        return true;
+    }
+    else if (IsTreeOneElmt(P)){
+        return true;
+    }
+    else{
+        return IsSkewRight(Right(P)) && (Left(P) == Nil);
+    }
+
+}
+
+int Level (BinTree P, infotype X){
+/* Mengirimkan level dari node X yang merupakan salah satu simpul dari pohon biner P. 
+   Akar(P) level-nya adalah 1. Pohon P tidak kosong. */
+    if (Akar(P) == X) return 1;
+    else{
+        if(SearchTree(Left(P), X)) return 1 + Level(Left(P), X);
+        else if (SearchTree(Right(P), X)) return 1 + Level(Right(P), X);
+    }
+}
+
+int Tinggi (BinTree P){
+/* Pohon Biner mungkin kosong. Tinggi pohon kosong = 0.
+   Mengirim "height" yaitu tinggi dari pohon */
+    if(IsTreeEmpty(P)) return 0;
+    else{
+      if (Tinggi(Left(P)) > Tinggi(Right(P))) return 1 + Tinggi(Left(P));
+      else return 1 + Tinggi(Right(P));
+    }
+}
+
+
+void AddDaunTerkiri (BinTree *P, infotype X){
+/* I.S. P boleh kosong */
+/* F.S. P bertambah simpulnya, dengan X sebagai simpul daun terkiri */
+    if (IsTreeEmpty(*P)) *P = Tree(X, Nil, Nil);
+    else AddDaunTerkiri(&Left(*P), X);
+}
+
+void AddDaun (BinTree *P, infotype X, infotype Y, boolean Kiri){
+/* I.S. P tidak kosong, X adalah salah satu daun Pohon Biner P */
+/* F.S. P bertambah simpulnya, dengan Y sebagai anak kiri X (jika Kiri = true), atau 
+        sebagai anak Kanan X (jika Kiri = false) */
+/*		Jika ada > 1 daun bernilai X, diambil daun yang paling kiri */
+    if (IsTreeOneElmt(*P) && Akar(*P) == X)
+        if (Kiri) Left(*P) = Tree(Y, Nil, Nil);
+        else Right(*P) = Tree(Y, Nil, Nil);
+    else{
+        if (SearchTree(Left(*P), X)) AddDaun(&Left(*P), X, Y, Kiri);
+        else AddDaun(&Right(*P), X, Y, Kiri);
+    }
+}
+
+
+Function bSearch (BinTree p, x: ElType) 
+
+
+DRIVE TUBAY
+function AverageRange(L : List, min: ElType, max : ElType) -> integer
+KAMUS LOKAL
+	count : integer
+	sum : integer
+	loc : address
+ALGORITMA
+	loc <- First(L)
+	sum <- 0
+	count <- 0
+	while loc != Nil do
+		if (Info(P) > min) and (Info(P) < max) then
+			count <- count + 1
+			sum <- sum + Info(P)
+		loc <- Next(loc)
+	if count = 0 then
+		-> 0
+	else
+		-> sum / count
+
+procedure insertX (L : List, x : ElType, idx : integer)
+KAMUS LOKAL
+	loc, prev, cache : address
+	found : boolean
+ALGORITMA
+	loc <- First(L)
+	prev <- Nil
+	cache <- Nil
+	idx <- 0
+	found <- false
+	while cache = Nil do
+		cache <- Alokasi(x)    { Dilakukan hingga berhasil }
+	if loc = Nil then  { Kasus List kosong }
+		First(L) <- cache
+	else
+		while loc != Nil and not found do
+			if Info(Next(loc)) >= x then
+				found <- true
+				if Info(Next(loc)) = x then { Elemen sudah ada }
+					idx <- 1
+			else
+				prev <- loc
+				loc <- Next(loc)
+				idx <- idx + 1
+		if Info(Next(loc)) != x then { Memasukkan elemen }
+			if prev = Nil then
+				Next(cache) <- First(L)
+				First(L) <- cache
+			else
+				Next(cache) <- loc
+				Next(prev) <- cache
+
+procedure CreateEmpty(output Q : Queue)
+ALGORITMA
+	Addr_Head(Q) <- Nil
+	Addr_Tail(Q) <- Nil
+
+function IsEmpty(Q : Queue) -> boolean
+ALGORITMA
+	-> Addr_Head(Q) = Nil and Addr_Tail(Q) = Nil
+
+procedure Enqueue(input/output Q : Queue, input X : ElType)
+KAMUS LOKAL
+	cache : address
+ALGORITMA
+	cache <- Alokasi(X)
+	if cache != Nil then
+		if IsEmpty(Q) then
+			Addr_Head(Q) <- cache
+		else
+			Next(Addr_Tail(Q)) <- cache
+		Addr_Tail(Q) <- cache
+
+procedure Dequeue(input/output Q : Queue, output X : ElType)
+KAMUS LOKAL
+	cache : address
+ALGORITMA
+	cache <- Addr_Head(Q)
+	if Addr_Head(Q) = Addr_Tail(Q) then
+		Addr_Head(Q) <- Nil
+		Addr_Tail(Q) <- Nil
+	else
+		Addr_Head(Q) <- Next(cache)
+		Next(cache) <- Nil
+	X <- Info(cache)
+	Dealokasi(cache)
+
+function Search (P : BinTree, X : Infotype) -> boolean
+ALGORITMA
+	if IsTreeEmpty(P) then
+		-> false
+	else
+		if Akar(P) = X then
+			-> true
+		else
+			-> IsTreeEmpty(Left(P)) or IsTreeEmpty(Right(P))
+
+function IsSkewRight (P : BinTree)
+ALGORITMA
+	if IsOneElmt(P) then
+		-> true
+	else
+		if isUnerRight(P) then
+			-> IsSkewRight(Right(P))
+		else
+			-> false
