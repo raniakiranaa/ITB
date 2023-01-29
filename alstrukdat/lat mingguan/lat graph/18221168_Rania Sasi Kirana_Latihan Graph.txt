@@ -1,0 +1,91 @@
+Rania Sasi Kirana
+18221168
+Latihan Graph
+
+function searchNode (g: Graph, x: integer) → AdrNode
+KAMUS LOKAL
+    temp: AdrNode
+ALGORITMA
+    temp <- g.first
+    while (temp↑.id != x and temp != NIL) do
+        temp <- temp↑.next
+
+    -> temp
+
+function searchEdge (g: Graph, prec: integer, succ: integer) → adrSuccNode
+KAMUS LOKAL
+    temp: AdrNode
+    trailer: AdrSuccNode
+ALGORITMA
+    temp <- searchNode(g, prec)
+    if (temp = NIL) then
+        -> NIL
+    else
+        trailer <- temp↑.trailer
+        while (trailer↑.succ↑.id != succ) do
+            trailer <- trailer↑.next
+
+        -> trailer
+
+procedure insertNode (input/output g: Graph, input x: integer, output pn: adrNode)
+KAMUS LOKAL
+    temp: AdrNode
+ALGORITMA
+    pn <- newGraphNode(x)
+    if (pn != NIL) then
+        temp <- g.first
+        while (temp↑.next != NIL) do
+            temp <- temp↑.next
+        temp↑.next <- pn
+
+procedure insertEdge (input/output g: Graph, input prec, succ: integer)
+KAMUS LOKAL
+    tempsucc, new: AdrSuccNode
+    p, temp: AdrNode
+ALGORITMA
+    if (searchNode(g,prec) = NIL) then
+        insertNode(g, prec)
+    if (searchNode(g, succ) = NIL) then
+        insertNode(g, succ)
+
+    if (searchEdge(g, prec, succ) != NIL) then
+        p <- g.first
+        while (p↑.id != prec) do
+            p <- p↑.next
+            tempsucc <- p↑.trail
+        while (tempsucc↑.next != NIL) do
+            tempsucc <- tempsucc↑.next
+
+        new <- newSuccNode(searchNode(succ))
+        if (new != NIL) then
+            temp <- searchNode(g, prec)
+            tempsucc <- temp↑.trail
+            if (tempsucc = NIL) then
+                tempsucc <- new
+            else
+                while (tempsucc↑.next != NIL) do
+                    tempsucc <- tempsucc↑.next
+                tempsucc↑.next <- new
+                new↑.next <- NIL
+
+procedure deleteNode (input/output g: Graph, input x: integer)
+KAMUS LOKAL
+    n, prev: AdrNode
+    succ, prevsucc: AdrSuccNode
+ALGORITMA
+    n <- g.first
+    while (n != NIL) do
+        if (n↑.id = x) then
+            succ <- n↑.trail
+            while (succ != NIL) do
+                prevsucc <- succ
+                succ <- succ↑.next
+                deallocSuccNode(prevsucc)
+            if (prev = NIL) then
+                g.first <- n↑.next
+            else
+                prev↑.next <- n↑.next
+            deallocGraphNode(n)
+        else
+            prev <- n
+            n <- n↑.next

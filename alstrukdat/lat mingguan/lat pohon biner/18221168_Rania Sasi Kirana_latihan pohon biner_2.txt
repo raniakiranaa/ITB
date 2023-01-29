@@ -1,0 +1,46 @@
+Rania Sasi Kirana
+18221168
+Latihan Pohon Biner Bagian 2
+
+function bSearch (p: BinTree, x: ElType) → boolean
+{ Mengirimkan true jika ada node dari p (BST) yang bernilai x }
+KAMUS LOKAL
+ALGORITMA
+    depend on p
+        isTreeEmpty(p) : -> false
+        isOneElmt(p) : if (p↑.info = x) then 
+                            -> true 
+                        else 
+                            -> false
+        isUnerLeft(p) : bSearch(p↑.left)
+        isUnerRight(p) : bSearch(p↑.right)
+        isBiner(p) : 
+            bSearch(p↑.left)
+            bSearch(p↑.right)
+
+function isBTree (p: BinTree) → boolean
+{ Mengirimkan true jika p adalah balanced tree. Asumsi: p tidak kosong }
+KAMUSLOKAL
+ALGORITMA
+    if isOneElmt(p) then
+        -> true
+    else
+        if (((depth(p↑.left) - depth(p↑.right)) > 1) or (depth(p↑.left) - depth(p↑.right) < -1)) or ((nbElmt(p↑.left) - nbElmt(p↑.right) > 1) or (nbElmt(p↑.left) - nbElmt(p↑.right) < -1))) then
+            -> false
+        else
+            -> isBTree(p↑.left) and isBTree(p↑.right)
+
+function buildBST (infos: array [0..99] of integer,
+                nEff: integer) → BinTree
+{ Mengirimkan BST yang semua elemennya ada di infos (tidak terurut dan tidak unik).
+Infos selalu diisi dari 1. nEff adalah jumlah elemen infos yang terdefinisi, 0 jika
+kosong. }
+KAMUS LOKAL
+    p: BinTree
+ALGORITMA
+    if nEff = 0 then
+        -> NIL
+    else
+        i traversal [1..nEff]
+            insSearchTree(array[i], p)
+        -> p
