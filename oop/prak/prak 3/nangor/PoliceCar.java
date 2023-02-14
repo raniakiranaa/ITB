@@ -7,9 +7,22 @@ public class PoliceCar implements TrackableVehicle {
     private String fuelType;
     private boolean started;
     
-    public PoliceCar(){
+    public PoliceCar(String plateNumber, Point gpsposition, int speed, int wheel, String fuelType){
         this.direction = "North";
         this.started = false;
+        this.plateNumber = plateNumber;
+        this.gpsPosition = gpsposition;
+        this.speed = speed;
+        this.wheel = wheel;
+        this.fuelType = fuelType;
+    }
+
+    public String getDirection(){
+        return this.direction;
+    }
+
+    public boolean getStarted(){
+        return this.started;
     }
 
     public int getNumberOfWheels(){
