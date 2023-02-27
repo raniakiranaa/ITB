@@ -80,4 +80,19 @@ public class PasswordManager {
         StringBuilder pass = decrypt(passwords.get(indeks), shifts.get(indeks));
         return (pass.toString());
     }
+    
+    public static void main(String[] args) {
+        PasswordManager pm = new PasswordManager();
+        pm.addPassword("qwerty", 2);
+        System.out.println("qwerty -> " + pm.passwords.get(0));
+        System.out.println("retrieve qwerty -> " + pm.retrievePassword(0));
+
+        pm.addPassword("asdfgh", 3);
+        System.out.println("asdfgh -> " + pm.passwords.get(1));
+        System.out.println("retrieve asdfgh -> " + pm.retrievePassword(1));
+        
+        pm.addPassword("zxcvbn", 4);
+        System.out.println("zxcvbn -> " + pm.passwords.get(2));
+        System.out.println("retrieve zxcvbn -> " + pm.retrievePassword(2));
+    }
 }

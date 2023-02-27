@@ -19,7 +19,7 @@ public class PalindromeProcessor {
         // keluarkan susbtring palindrome terpanjang
         String longest = "";
         for (int i = 0; i < str.length(); i++){
-            for (int j = i + 1; j < str.length(); i++){
+            for (int j = i + 1; j <= str.length(); j++){
                 String substring = str.substring(i, j);
                 if (isPalindrome(substring) && substring.length() > longest.length()){
                     longest = substring;
@@ -27,5 +27,11 @@ public class PalindromeProcessor {
             }
         }
         return longest;
+    }
+
+    public static void main(String[] args) {
+        PalindromeProcessor pp = new PalindromeProcessor();
+        System.out.println("apple -> " + pp.longestPalindromeSubstring("apple"));
+        System.out.println("qweewqx -> " + pp.longestPalindromeSubstring("qweewqx"));
     }
 }
