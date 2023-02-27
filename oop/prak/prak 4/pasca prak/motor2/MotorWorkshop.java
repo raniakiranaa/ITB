@@ -4,7 +4,7 @@ public class MotorWorkshop {
         motor.setTyre(tyre);
     }
 
-    public void changeEngine(Motor motor, Engine engine) {
+    public void changeEngine(Motor motor, Engine1 engine) {
         // Melakukan penggantian engine pada motor
         motor.setEngine(engine);
     }

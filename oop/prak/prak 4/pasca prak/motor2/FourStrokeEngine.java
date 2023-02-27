@@ -1,4 +1,4 @@
-public class FourStrokeEngine implements Engine {
+public class FourStrokeEngine implements Engine1 {
     private int engineCapacity;
 
     public FourStrokeEngine(int engineCapacity) {

@@ -1,4 +1,4 @@
-public class TwoStrokeEngine implements Engine {
+public class TwoStrokeEngine implements Engine1 {
     private int engineCapacity;
 
     public TwoStrokeEngine(int engineCapacity) {

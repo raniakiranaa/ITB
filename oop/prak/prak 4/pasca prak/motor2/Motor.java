@@ -1,21 +1,21 @@
 /**
  * Motor.java
- * [Jelaskan kegunaan class ini]
- * @author [NIM] [Nama]
+ * Parent class
+ * @author 18221168 Rania Sasi Kirana
  */
 public class Motor {
     private int numberOfWheels;
-    private Engine engine;
+    private Engine1 engine;
     private Tyre tyre;
   
-    public Motor(int numberOfWheels, Engine engine, Tyre tyre) {
+    public Motor(int numberOfWheels, Engine1 engine, Tyre tyre) {
         // Konstruktor
         this.numberOfWheels = numberOfWheels;
         this.engine = engine;
         this.tyre = tyre;
     }
 
-    public void setEngine(Engine engine) {
+    public void setEngine(Engine1 engine) {
         // Mengeset mesin motor
         this.engine = engine;
     }
@@ -23,10 +23,9 @@ public class Motor {
     public void setTyre(Tyre tyre) {
         // Mengeset ban motor
         this.tyre = tyre;
-        
     }
 
-    public Engine getEngine() {
+    public Engine1 getEngine() {
         // Mengembalikan mesin
         return this.engine;
     }
@@ -38,11 +37,11 @@ public class Motor {
     
     public String sound(){
         //Mengembalikan string berisi suara mesin
-        return "Ngenggg";
+        return this.engine.sound();
     }
 
     public String printDescription() {
         //Mengembalikan string berformat "Motor ini memiliki a roda dengan kapasitas mesin b cc", dimana a adalah numberOfWheels dan b adalah engineCapacity
-        return ("Motor ini memiliki " + this.numberOfWheels + "roda dengan kapasitas mesin " + this.engine.getEngineCapacity() + "cc");
+        return ("Motor ini memiliki " + this.numberOfWheels + " roda dengan kapasitas mesin " + this.engine.getEngineCapacity() + " cc");
     }
 }

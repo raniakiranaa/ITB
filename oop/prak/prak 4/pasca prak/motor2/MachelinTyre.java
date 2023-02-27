@@ -1,4 +1,4 @@
-public class MachelinTyre implements Tyre {
+public class MachelinTyre implements Tyre1 {
     private int pressure;
 
     public MachelinTyre(int pressure) {

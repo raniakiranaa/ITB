@@ -12,5 +12,6 @@ public class Subclass extends Superclass {
     Superclass s = new Subclass();
     //gabisa
     // s.cobaa();
+    s.printMethod();
     }
 }

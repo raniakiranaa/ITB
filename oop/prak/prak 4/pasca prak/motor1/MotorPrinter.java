@@ -2,23 +2,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MotorPrinter {
-    private List<Motorawal> motorList = new ArrayList<Motorawal>();
-    // Buat atribut testMotor di 
-    private Motorawal testMotor;
+    private List<Motor1> motorList = new ArrayList<Motor1>();
+    // Buat atribut testMotor di sini
+    private Motor1 testMotor;
 
-    public void addMotor(Motorawal newMotor) {
+
+    public void addMotor(Motor1 newMotor) {
         // Menambahkan newMotor ke dalam motorList
         // Hint: Penambahan elemen ke dalam sebuah objek ArrayList dapat menggunakan method
         // add(E element) yang dimiliki objek tersebut
         motorList.add(newMotor);
     }
 
-    public List<Motorawal> getMotorList() {
+    public List<Motor1> getMotorList() {
         // Mengembalikan motorList
         return this.motorList;
     }
 
-    public Motorawal getTestMotor(){
+    public Motor1 getTestMotor(){
         // Mengembalikan testMotor
         return this.testMotor;
     }
@@ -33,9 +34,9 @@ public class MotorPrinter {
         // yang memiliki parameter: numberOfWheels = 2, engineCapacity = 2, color = "Red", dan isRoundedFrontLamp = False
         
         // Hint: Pengecekan kesamaan antara dua string sebaiknya menggunakan method equals()
-        // yang dimiliki kedua Object tersebut. Contoh: "test".equals("test") bernilai True
+        // yang dimiliki kedua Object tersebut. Contoh: "test".equals("test") bernilai 
         if (motorType.equals("Motor")){
-            this.testMotor = new Motorawal(2, 3);
+            this.testMotor = new Motor1(2, 3);
         } else if (motorType.equals("FCX")){
             this.testMotor = new FCX(2, 6, 10, true);
         } else if (motorType.equals("Fespa")){
@@ -61,7 +62,7 @@ public class MotorPrinter {
         // Motor ini memiliki 10 roda dengan kapasitas mesin 20 cc
         
 		// * *Hint: Pengecekan* _instance_ *sebuah kelas* *dilakukan dengan menggunakan operator `instanceof` (Contoh: "string" instanceof String)*
-        for (Motorawal motor : this.motorList){
+        for (Motor1 motor : this.motorList){
             if (motor instanceof FCX){
                 FCX fcx = (FCX) motor;
                 System.out.println("FCX: " + fcx.sound());

@@ -1,28 +1,28 @@
-public class DonlupTyre implements Tyre {
+public class ParelliTyre implements Tyre {
     private int pressure;
     private int width;
 
-    public DonlupTyre(int pressure, int width) {
+    public ParelliTyre(int pressure, int width) {
         // Konstruktor
         this.pressure = pressure;
         this.width = width;
     }
 
     @Override
-    public String getTyreName() {
-        // Kembalikan "Donlup"
-        return "Donlup";
-    }
-
-    @Override
     public int getTyrePressure() {
-        // Kembalikan nilai pressure
+        // Mengembalikan pressure
         return this.pressure;
     }
 
     @Override
     public int getTyreWidth() {
-        // Kembalikan nilai width
+        // Mengembalikan width
         return this.width;
+    }
+
+    @Override
+    public Boolean isSlickTyre() {
+        // Mengembalikan isSlick
+        return true;
     }
 }

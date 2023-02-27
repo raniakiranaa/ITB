@@ -1,9 +1,9 @@
 /**
  * FCX.java
- * [Jelaskan kegunaan class ini]
- * @author [NIM] [Nama]
+ * Subclass dari Motor.java
+ * @author 18221168 Rania Sasi Kirana
  */
-public class FCX extends Motorawal {//Jangan lupa tambahkan kata kunci untuk melakukan polymorphism antar kelas
+public class FCX extends Motor1 {//Jangan lupa tambahkan kata kunci untuk melakukan polymorphism antar kelas
     private int luggageCapacity;
     private Boolean isIdleStoping;
 
@@ -35,9 +35,9 @@ public class FCX extends Motorawal {//Jangan lupa tambahkan kata kunci untuk mel
         //Apabila isIdleStoping true, maka mengembalikan: "Motor ini memiliki a roda dengan kapasitas mesin b cc, memiliki kapasitas bagasi c liter, dan sedang dapat berhenti otomatis apabila didiamkan" dengan a adalah numberOfWheels, b adalah engineCapacity dan c adalah luggageCapacity
         //Apabila isIdleStoping false, maka mengembalikan: "Motor ini memiliki a roda dengan kapasitas mesin b cc, memiliki kapasitas bagasi c liter, dan sedang tidak dapat berhenti otomatis apabila didiamkan" dengan a adalah numberOfWheels, b adalah engineCapacity dan c adalah luggageCapacity
         if (this.isIdleStoping){
-            return ("Motor ini memiliki " + this.getNumberOfWheels() + "roda dengan kapasitas mesin " + this.getEngineCapacity() + "cc, memiliki kapasitas bagasi " + this.luggageCapacity + "liter, dan sedang dapat berhenti otomatis apabila didiamkan");
+            return ("Motor ini memiliki " + this.getNumberOfWheels() + " roda dengan kapasitas mesin " + this.getEngineCapacity() + " cc, memiliki kapasitas bagasi " + this.luggageCapacity + " liter, dan sedang dapat berhenti otomatis apabila didiamkan");
         } else {
-            return ("Motor ini memiliki " + this.getNumberOfWheels() + "roda dengan kapasitas mesin " + this.getEngineCapacity() + "cc, memiliki kapasitas bagasi " + this.luggageCapacity + "liter, dan sedang tidak dapat berhenti otomatis apabila didiamkan");
+            return ("Motor ini memiliki " + this.getNumberOfWheels() + " roda dengan kapasitas mesin " + this.getEngineCapacity() + " cc, memiliki kapasitas bagasi " + this.luggageCapacity + " liter, dan sedang tidak dapat berhenti otomatis apabila didiamkan");
         }
     }
 }

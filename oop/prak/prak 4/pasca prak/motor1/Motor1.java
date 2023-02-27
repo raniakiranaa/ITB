@@ -1,13 +1,13 @@
 /**
  * Motor.java
- * [Jelaskan kegunaan class ini]
- * @author [NIM] [Nama]
+ * Parent class
+ * @author 18221168 Rania Sasi Kirana
  */
-public class Motorawal {
+public class Motor1 {
     private int numberOfWheels;
     private int engineCapacity;
   
-    public Motorawal(int numberOfWheels,int engineCapacity) {
+    public Motor1(int numberOfWheels,int engineCapacity) {
         this.numberOfWheels = numberOfWheels;
         this.engineCapacity = engineCapacity;
     }
@@ -23,6 +23,7 @@ public class Motorawal {
     public String sound(){
         return "Ngenggg";
     }
+    
     public String printDescription(){
         return String.format("Motor ini memiliki %d roda dengan kapasitas mesin %d cc", this.numberOfWheels, this.engineCapacity);
     }
