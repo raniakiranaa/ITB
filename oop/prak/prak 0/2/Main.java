@@ -5,6 +5,7 @@ class Main {
         Scanner input = new Scanner(System.in);
 
         int num = input.nextInt();
+        input.close();
         System.out.println(num*2);
     }
 }

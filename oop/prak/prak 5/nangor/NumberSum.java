@@ -70,13 +70,13 @@ public class NumberSum {
         return sumArr;
     }
 
-    public static void main(String[] args) {
-        Number[] numArr = {2L, 4.5f, 3.5, 45L, (short) 100, (byte) 5, (byte)2};
-        NumberSum ns = new NumberSum();
-        Number[] answer = ns.numberSum(numArr);
-        for (Number num : answer) {
-            System.out.println(num);
-        }
-    }
+    // public static void main(String[] args) {
+    //     Number[] numArr = {2L, 4.5f, 3.5, 45L, (short) 100, (byte) 5, (byte)2};
+    //     NumberSum ns = new NumberSum();
+    //     Number[] answer = ns.numberSum(numArr);
+    //     for (Number num : answer) {
+    //         System.out.println(num);
+    //     }
+    // }
 }
 

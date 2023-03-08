@@ -14,7 +14,7 @@ public class DaftarMahasiswa {
         System.out.println("Nama mahasiswa: " + mahasiswa.getNama());
         System.out.println("NIM mahasiswa: " + mahasiswa.getNim());
         System.out.println("SKS mahasiswa: " + mahasiswa.getSks());
-        System.out.println("Jumlah mahasiswa: " + mahasiswa.getJumlahMahasiswa());
+        System.out.println("Jumlah mahasiswa: " + Mahasiswa.getJumlahMahasiswa());
         mahasiswa.tambahSks(tambahan);
         System.out.println("Total Revisi SKS mahasiswa: " + mahasiswa.getSks());
 
