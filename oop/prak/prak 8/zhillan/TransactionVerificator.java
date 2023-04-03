@@ -12,7 +12,7 @@ public class TransactionVerificator {
         for (int i = 30; i <= 630; i += 30) {
             delays.add(i);
         }
-        Collections.shuffle(delays, random);
+        Collections.shuffle(delays, random); 
     }
 
     public boolean isFraud(int amount) {

@@ -6,7 +6,7 @@ public class Main {
         Scanner input = new Scanner(System.in);
         int balance = input.nextInt();
         int Q = input.nextInt();
-
+ 
         // Inisialisasi
         DebitCard debit = new DebitCard(balance);
         Thread[] thread = new Thread[Q];

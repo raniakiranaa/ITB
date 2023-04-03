@@ -26,7 +26,7 @@ public class TransactionHistory {
 
     public TransactionHistory() {
         transactionsHistory = Collections.synchronizedList(new ArrayList<>());
-    }
+    } 
 
     public void addWithdraw(int amount, boolean success) {
         transactionsHistory.add(new History(Transaction.WITHDRAW, amount, success));

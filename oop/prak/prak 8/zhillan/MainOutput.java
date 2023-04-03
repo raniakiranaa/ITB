@@ -3,5 +3,4 @@ public class MainOutput {
         DelayedOutput.printDelayed(200, "Halo 1");
         DelayedOutput.printDelayed(100, "Halo 2");
     }
-
 }

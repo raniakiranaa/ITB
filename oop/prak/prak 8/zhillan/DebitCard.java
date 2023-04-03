@@ -8,7 +8,7 @@ public class DebitCard {
         transactionVerificator = new TransactionVerificator();
         transactionHistory = new TransactionHistory();
     }
-
+ 
     public void withdraw(int amount) {
         if(!transactionVerificator.isFraud(amount)){
             if(transactionVerificator.verifyWithdraw(balance, amount)){
